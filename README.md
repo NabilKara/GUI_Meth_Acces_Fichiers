@@ -1,2 +1,2 @@
 # team-9-sfsd
-a visualization of the L^OVC file accessing method
+a visualization of the LŌVC file accessing method
