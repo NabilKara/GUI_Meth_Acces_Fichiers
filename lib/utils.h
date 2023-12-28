@@ -5,6 +5,5 @@
 
 int strToInt(char ch[],int taille);
 void intToStr(int n,char ch[]);
-int nbPos(int n) ;
 
 #endif
