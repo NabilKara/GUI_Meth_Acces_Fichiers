@@ -1,16 +1,18 @@
-#include <SDL2/SDL_error.h>
-#include <stdlib.h>
-#include<stdio.h>
-#include<stdbool.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_error.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_video.h>
+#include <asm-generic/errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 
 
 
 
-
-
-int main()
+int main(int argc,char * argv[])
 {
       //vars
       int Mx = 0;
@@ -18,7 +20,19 @@ int main()
       bool play = false;
       bool about = false;
       bool shouldexit = false;
-//init menu
+
+//CREATING THE WINDOW      
+  SDL_Window* window =NULL;
+             if(SDL_Init(SDL_INIT_VIDEO)<0){
+                         printf("SDL could not be initialized:  ");
+                         SDL_GetError();
+             }
+            else {
+                        printf("SDL video system is ready to go \n");
+             }
+window = SDL_CreateWindow("mainwindow",0, 0, 640,480, SDL_WINDOW_SHOWN);
+      
+      //init menu
  //init background
       SDL_Texture *background = IMG_LoadTexture(renderer, "FilePath");
       SDL_Rect background_rect;
@@ -93,6 +107,9 @@ if (event->type == SDL_MOUSEBUTTONDOWN)
 {
     if (event->button.button == SDL_BUTTON_LEFT)
     {    
+      //quiting
+          SDL_DestroyWindow(window);
+            SDL_Quit();
         exit(0);
     }
 }
