@@ -72,6 +72,12 @@ window = SDL_CreateWindow("mainwindow",0, 0, 640,480, SDL_WINDOW_SHOWN);
 
  
       while (! shouldexit){
+      
+           SDL_Event event;
+        // start event loop
+        while (SDL_PollEvent(&event)){
+
+            
        // new game has been clicked????
                SDL_GetMouseState(&Mx, &My); 
        // check if cursor on new game
@@ -143,9 +149,11 @@ else
 }
 
 
-
-
-
+//click close button
+   if (event.type ==SDL_QUIT){
+                    shouldexit=true;
+   }
+        }
       }
   }
 
