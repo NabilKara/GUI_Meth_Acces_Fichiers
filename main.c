@@ -117,7 +117,9 @@ if (event->type == SDL_MOUSEBUTTONDOWN)
       //quiting
           SDL_DestroyWindow(window);
             SDL_Quit();
-        exit(0);
+           SDL_DestroyWindow(window);
+    SDL_Quit();
+    return 0;
     }
 }
 }
