@@ -31,7 +31,8 @@ int main(int argc,char * argv[])
                         printf("SDL video system is ready to go \n");
              }
 window = SDL_CreateWindow("mainwindow",0, 0, 640,480, SDL_WINDOW_SHOWN);
-      
+SDL_Renderer* renderer = NULL;
+    renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);      
       //init menu
  //init background
       SDL_Texture *background = IMG_LoadTexture(renderer, "FilePath");
