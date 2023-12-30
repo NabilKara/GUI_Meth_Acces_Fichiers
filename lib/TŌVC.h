@@ -36,18 +36,15 @@ typedef struct
 
 /*---Fonctions du modele abstrait---*/
 //*****fonctions propres au modele****
-void ouvrir(TŌVC* f,char nom_f[],char mode);
-void fermer(TŌVC* f);
-void lireBloc(TŌVC* f,int i,Buffer *buf);
-void ecrireBloc(TŌVC* f,int i,Buffer* buf);
+bool ouvrir(TŌVC* f,char nom_f[],char mode);
+bool fermer(TŌVC* f);
+bool lireBloc(TŌVC* f,int i,Buffer *buf);
+bool ecrireBloc(TŌVC* f,int i,Buffer* buf);
 int entete(TŌVC* f,int i);
-void affecterEntete(TŌVC* f,int i,int val);
-void allouerBloc(TŌVC* f);
+bool affecterEntete(TŌVC* f,int i,int val);
+bool allouerBloc(TŌVC* f);
 
 //*****fonctions necessaires aux traitements****
-void lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
-void ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier
-void afficher_entete(TŌVC* f); // afficher les caracteristiques du fichier
-void afficher_bloc(TŌVC* f,int i); // afficher le contenu du bloc i
-void afficher_fichier(TŌVC* f); // afficher le contenu du fichier
+bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
+bool ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier
 #endif // TŌVC_H_INCLUDED

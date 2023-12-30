@@ -10,7 +10,6 @@
 bool rechercher(char nom_fichier[],char cle[20],int *i,int *j){
     TŌVC* fichier;
     Buffer* buf;
-    bool trouv = false;
     ouvrir(fichier,nom_fichier,"a");
     *i = 0;
     *j = 0;
@@ -25,7 +24,7 @@ bool rechercher(char nom_fichier[],char cle[20],int *i,int *j){
         lire_chaine(fichier,buf,i,j,TAILLE_CLE,&chCle);
         
         if((memcmp(chCle,cle,TAILLE_CLE) == 0) && (memcmp(chEff,'N',TAILLE_CHAR_EFFACEMENT_LOGIQUE) == 0)){
-            trouv = true;
+            return true;
         }else{
             *j = *j +  strToInt(chLong,TAILLE_EFFECTIVE_ENREG) - TAILLE_CLE;
             if(*j > MAX_NO_CHARS){
@@ -38,7 +37,7 @@ bool rechercher(char nom_fichier[],char cle[20],int *i,int *j){
     }
     fermer(fichier);
     
-    return trouv;
+    return false;
 }
 bool inserer(char e[],int taille,char nom_fichier[]){
     TŌVC* fichier;
@@ -47,7 +46,7 @@ bool inserer(char e[],int taille,char nom_fichier[]){
     ouvrir(fichier,buf,'a');
     int i = entete(fichier,ENTETE_NUMERO_DERNIER_BLOC);
     int j = entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC);
-    intToStr(taille,&c); 
+    intToStr(taille,c); 
     
     ecrire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,c);
     ecrire_chaine(fichier,buf,&i,&j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,"N");

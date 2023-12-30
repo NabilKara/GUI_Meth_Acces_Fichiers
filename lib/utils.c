@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include <string.h>
 #include<utils.h>
+#include<TŌVC.h>
 
 int strToInt(char ch[])
 {
@@ -10,7 +11,7 @@ int strToInt(char ch[])
 
 void intToStr(int n,char ch[])
 { 
-    if(n > 999)
+    if(n < 0 || n > MAX_NO_CHARS)
     {
         printf("ERREUR !!!!");
         exit(1) ;

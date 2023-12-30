@@ -26,21 +26,23 @@ int main(int argc,char * argv[])
              if(SDL_Init(SDL_INIT_VIDEO)<0){
                          printf("SDL could not be initialized:  ");
                          SDL_GetError();
+                         exit(EXIT_FAILURE);
              }
             else {
                         printf("SDL video system is ready to go \n");
              }
-window = SDL_CreateWindow("mainwindow",0, 0, 640,480, SDL_WINDOW_SHOWN);
-SDL_Renderer* renderer = NULL;
+
+    window = SDL_CreateWindow("mainwindow",0, 0, 640,480, SDL_WINDOW_SHOWN);
+    SDL_Renderer* renderer = NULL;
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);      
       //init menu
- //init background
+    //init background
       SDL_Texture *background = IMG_LoadTexture(renderer, "FilePath");
       SDL_Rect background_rect;
-          background_rect x = 0;   
-          background_rect y = 0;   
-          background_rect w = 500;
-          background_rect h = 500;
+          background_rect.x = 0;   
+          background_rect.y = 0;   
+          background_rect.w = 500;
+          background_rect.h = 500;
 
 //The New Game button
           SDL_Texture *newGame = IMG_LoadTexture(renderer, "FilePath");
@@ -88,9 +90,9 @@ SDL_Renderer* renderer = NULL;
                  SDL_SetTextureColorMod(newGame, 250, 0, 0 ); 
     
 //check if clicked
-if (event->type == SDL_MOUSEBUTTONDOWN)   
+if (event.type == SDL_MOUSEBUTTONDOWN)   
 {
-    if (event->button.button == SDL_BUTTON_LEFT)
+    if (event.button.button == SDL_BUTTON_LEFT)
     {    
         play = true;
     }
@@ -110,16 +112,14 @@ if (Mx >= exit_Rect.x && Mx <= exit_Rect.x + exit_Rect.w && My >= exit_Rect.y &&
                  SDL_SetTextureColorMod(exit, 250, 0, 0 ); 
     
 //check if clicked
-if (event->type == SDL_MOUSEBUTTONDOWN)   
+if (event.type == SDL_MOUSEBUTTONDOWN)   
 {
-    if (event->button.button == SDL_BUTTON_LEFT)
+    if (event.button.button == SDL_BUTTON_LEFT)
     {    
       //quiting
           SDL_DestroyWindow(window);
-            SDL_Quit();
-           SDL_DestroyWindow(window);
-    SDL_Quit();
-    return 0;
+          SDL_Quit();
+          return EXIT_SUCCESS;
     }
 }
 }
@@ -136,9 +136,9 @@ if (Mx >= about_Rect.x && Mx <= about_Rect.x + about_Rect.w && My >= about_Rect.
                  SDL_SetTextureColorMod(exit, 250, 0, 0 ); 
     
 //check if clicked
-if (event->type == SDL_MOUSEBUTTONDOWN)   
+if (event.type == SDL_MOUSEBUTTONDOWN)   
 {
-    if (event->button.button == SDL_BUTTON_LEFT)
+    if (event.button.button == SDL_BUTTON_LEFT)
     {    
         about = true;
     }
@@ -158,8 +158,4 @@ else
    }
         }
       }
-        SDL_DestroyWindow(window);
-    SDL_Quit();
-    return 0;
-  }
-
+}

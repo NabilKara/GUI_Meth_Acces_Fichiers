@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #include<TŌVC.h>
 
-void ouvrir(TŌVC* f,char nom_f[],char mode){
+bool ouvrir(TŌVC* f,char nom_f[],char mode){
     if(mode == 'N' || mode == 'n'){
         f->fichier = fopen(nom_f,"wb+");    
         if(f->fichier == NULL) {
@@ -17,27 +18,31 @@ void ouvrir(TŌVC* f,char nom_f[],char mode){
     }else if(mode == 'A'){
         f->fichier = fopen(nom_f,"rb+");
         if(f->fichier == NULL) {
-            printf("Impossible d'ouvrir le fichier");
-            return;    
+            // printf("Impossible d'ouvrir le fichier");
+            return false;    
         }
         fread(&(f->entete),sizeof(Entete),1,f->fichier);
         rewind(f);
     }
+    return true;
 }
 
-void fermer(TŌVC* f){
+bool fermer(TŌVC* f){
     rewind(f);
-    fwrite(&(f->entete),sizeof(Entete),1,f->fichier);
+    if(fwrite(&(f->entete),sizeof(f->entete),1,f->fichier) != sizeof(f->entete)) return false;
     fclose(f);
+    return true;
 }
 
-void lireBloc(TŌVC* f,int i,Buffer *buf){
+bool lireBloc(TŌVC* f,int i,Buffer *buf){
     fseek(f->fichier,sizeof(Bloc)*(i-1) + sizeof(Entete),SEEK_SET);
-    fread(buf,sizeof(Buffer),1,f->fichier); 
+    if(!fread(buf,sizeof(Buffer),1,f->fichier)) return false; 
+    return true;
 }
-void ecrireBloc(TŌVC* f,int i,Buffer* buf){
+bool ecrireBloc(TŌVC* f,int i,Buffer* buf){
     fseek(f->fichier,sizeof(Bloc)*(i-1) + sizeof(Entete),SEEK_SET);
-    fwrite(buf,sizeof(Buffer),1,f->fichier);
+    if(fwrite(buf,sizeof(Buffer),1,f->fichier) != sizeof(Buffer)) return false;
+    return true;
 }
 int entete(TŌVC* f,int i){
     switch (i)
@@ -53,29 +58,30 @@ int entete(TŌVC* f,int i){
         return -1;
     }
 }
-void affecterEntete(TŌVC* f,int i,int val){
+bool affecterEntete(TŌVC* f,int i,int val){
     switch (i)
     {
     case ENTETE_NUMERO_DERNIER_BLOC:
         f->entete.numeroDernierBloc = val;
-        break;
+        return true;
     case ENTETE_POSLIBRE_DERNIER_BLOC:
         f->entete.positionLibreDernierBloc = val;
-        break;
+        return true;
     case ENTETE_NOMBRE_CHAR_SUP:
         f->entete.nbCharSupp = val;
+        return true;
     default:
-        printf("Erreur lors du chargement.\n\tCaracteristique n'existe pas");
-        break;
+       // printf("Erreur lors du chargement.\n\tCaracteristique n'existe pas");
+        return false;
     }
 }
-void allouerBloc(TŌVC* f){
+int allouerBloc(TŌVC* f){
     int numDernierBloc = entete(f,ENTETE_NUMERO_DERNIER_BLOC)+1;
-    affecterEntete(f,ENTETE_NUMERO_DERNIER_BLOC,numDernierBloc);
+    if(!affecterEntete(f,ENTETE_NUMERO_DERNIER_BLOC,numDernierBloc)) return -1;
     return numDernierBloc;
 }
 
-void lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
+bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
     *ch = calloc(taille+1,sizeof(char));
     for (int k = 0; k < taille; k++)
     {
@@ -85,13 +91,14 @@ void lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
         }else{
             // chevauchement
             i++; // bloc-svt;
-            lireBloc(f,i,buf);
+            if(!lireBloc(f,i,buf)) return false;
             (*ch)[k] = buf->tab[1];
             j = 2;
         }
     }
+    return true;
 }
-void ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
+bool ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
     for (int k = 0; k < taille; k++)
     {
         if(j <= MAX_NO_CHARS){
@@ -100,12 +107,10 @@ void ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
         }else{
             // chevauchement
             i++;
-            lireBloc(f,i,buf);
+            if(!lireBloc(f,i,buf)) return false;
             buf->tab[1] = ch[k];
             *j = 2;
         }
     }
+    return true;
 }
-void afficher_entete(TŌVC* f){}
-void afficher_bloc(TŌVC* f,int i){}
-void afficher_fichier(TŌVC* f){}
