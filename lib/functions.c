@@ -106,6 +106,7 @@ int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
                 bs = mid-1;
             }
         }
+        return mid;
     }
 }
 
