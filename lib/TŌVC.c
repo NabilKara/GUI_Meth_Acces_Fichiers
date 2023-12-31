@@ -96,7 +96,7 @@ bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
         }else{
             // chevauchement
             (*i)++; // passer au bloc suivant;
-            if(!lireBloc(f,i,buf)) return false;
+            if(!lireBloc(f,*i,buf)) return false;
             (*ch)[k] = buf->tab[1];
             *j = 2;
         }
@@ -112,7 +112,7 @@ bool ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
         }else{
             // chevauchement
             (*i)++;
-            if(!lireBloc(f,i,buf)) return false;
+            if(!lireBloc(f,*i,buf)) return false;
             buf->tab[1] = ch[k];
             *j = 2;
         }

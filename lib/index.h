@@ -3,7 +3,6 @@
 
 #include<stdlib.h>
 #include<TŌVC.h>
-#include<TŌVC.c>
 
 // declarations des constantes 
 #define MAX_INDEX 1000// taille de la table d'index
