@@ -87,3 +87,26 @@ bool suppression_logique(char cle[20], char nom_fichier[]){
     fermer(fichier);
     }
 }
+
+int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
+    
+    if(t == NULL){
+        return -1;
+    }else{
+        int bi = 0, bs = t->taille;
+        bool trouv = false;
+        while(bi <= bs && !trouv){
+            int mid = (bi+bs)/2;
+            int cmp = strcmp(t->tab[mid].cle,cle);
+            if(!cmp) {
+                trouv = true;
+            }else if(cmp < 0){ // cle > cle de la table d'index
+                bi = mid+1;
+            }else{
+                bs = mid-1;
+            }
+        }
+    }
+}
+
+void creerTableIndex(char nom_fich[]){}
