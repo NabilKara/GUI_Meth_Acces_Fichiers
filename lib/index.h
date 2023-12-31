@@ -63,7 +63,7 @@ int allouerBloc_TOF(TOF* f);
 /*----------fonctions liee au traitement sur la table d'index-----------*/
 
 TableIndex* alloc_TabIndex(); // allouer un espace en MC pour la table d'index
-void liberer_TabIndex(TableIndex* t); // liberer l'espace occupe par la table d'index
+void liberer_TabIndex(TableIndex** t); // liberer l'espace occupe par la table d'index
 bool charger_TabIndex(char nom_fich[],TableIndex* t); // charger une table d'index a partir du fichier
 bool sauvegarder_TabIndex(char nom_fich[],TableIndex* t); // sauvegarder une table d'index dans un fichier
 

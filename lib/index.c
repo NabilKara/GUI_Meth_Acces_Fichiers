@@ -96,7 +96,7 @@ bool charger_TabIndex(char nom_fich[], TableIndex* t) {
     TOF f;
     Buffer_TOF* buf;
     t->taille = 0;
-    if(!ouvrir_TOF(f,nom_fich,'A')) return false; 
+    if(!ouvrir_TOF(&f,nom_fich,'A')) return false; 
 
     for (int i = 0; i < entete_TOF(&f,ENTETE_NUMERO_DERNIER_BLOC_TOF); i++)
     {
@@ -110,14 +110,15 @@ bool charger_TabIndex(char nom_fich[], TableIndex* t) {
         
     }
 
-    fermer_TOF(f);
+    fermer_TOF(&f);
     
     return true;
 }
 
 bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     
-    TOF f = ouvrir_TOF(f,nom_fich,'N');
+    TOF f;
+    if(!ouvrir_TOF(&f,nom_fich,'N')) return false;
     Buffer_TOF * buf;
     int numBloc = 0;
     int j = 0;
@@ -126,7 +127,7 @@ bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     }
     if(t == NULL) return false;
 
-    rewind(fichier);
+    rewind(f.fichier);
     
     // ecrire les enregistrements de la table d'index dans le fichier 1 par 1
     for (int i = 0; i < t->taille; i++)
@@ -136,7 +137,7 @@ bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
             j++;
         }else{
             buf->nbIndex = MAX_INDEX_TOF; // bloc remppli 
-            ecrireBloc_TOF(f,numBloc,buf); // ecrire le bloc dans le fichier
+            ecrireBloc_TOF(&f,numBloc,buf); // ecrire le bloc dans le fichier
             numBloc++;
             buf->tab[0] = t->tab[i]; 
             j = 1;
@@ -145,10 +146,10 @@ bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     }
     
     buf->nbIndex = j;
-    ecrireBloc_TOF(f,numBloc,buf);
+    ecrireBloc_TOF(&f,numBloc,buf);
 
-    affecterEntete_TOF(f,ENTETE_NUMERO_DERNIER_BLOC,numBloc);
-    affecterEntete_TOF(f,ENTETE_NOMBRE_ENREGISTREMENTS,t->taille); 
-    fermer_TOF(f);
+    affecterEntete_TOF(&f,ENTETE_NUMERO_DERNIER_BLOC,numBloc);
+    affecterEntete_TOF(&f,ENTETE_NOMBRE_ENREGISTREMENTS,t->taille); 
+    fermer_TOF(&f);
     return true;
 }
