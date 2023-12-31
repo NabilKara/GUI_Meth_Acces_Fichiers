@@ -58,18 +58,47 @@ bool fermer_TOF(TOF* f){
     if(!fwrite(&(f->entete),sizeof(f->entete),1,f->fichier)) return false;
     fclose(f->fichier);
 }
-bool lireBloc_TOF(TOF* f,int i,Buffer *buf){
-
+bool lireBloc_TOF(TOF* f,int i,Buffer_TOF *buf){
+    fseek(f->fichier,sizeof(Bloc_TOF)*(i-1) + sizeof(Entete_TOF),SEEK_SET);
+    if(!fread(buf,sizeof(Buffer_TOF),1,f->fichier)) return false; 
+    return true;
 }
-bool ecrireBloc_TOF(TOF* f,int i,Buffer* buf){
-
+bool ecrireBloc_TOF(TOF* f,int i,Buffer_TOF* buf){
+    fseek(f->fichier,sizeof(Bloc_TOF)*(i-1) + sizeof(Entete_TOF),SEEK_SET);
+    if(fwrite(buf,sizeof(Buffer_TOF),1,f->fichier) != sizeof(Buffer_TOF)) return false;
+    return true;
 }
 
-bool allouerBloc_TOF(TOF* f){
-
+int allouerBloc_TOF(TOF* f){
+    int numDernierBloc = entete_TOF(f,ENTETE_NUMERO_DERNIER_BLOC_TOF) + 1 ;
+    if (!affecterEntete_TOF(f,ENTETE_NUMERO_DERNIER_BLOC_TOF,numDernierBloc))
+    {
+        return -1;
+    }
+    return numDernierBloc;
 }
 
 TableIndex* alloc_TabIndex(); 
-void liberer_TabIndex(TableIndex* t); 
-bool charger_TabIndex(char nom_fich[],TableIndex* t); 
-bool sauvegarder_TabIndex(char nom_fich[],TableIndex* t);
+void liberer_TabIndex(TableIndex* t);
+ 
+bool charger_TabIndex(char nom_fich[], TableIndex* t) {
+    FILE* fichier = fopen(nom_fich, "rb");
+    if (fichier == NULL) {
+        return false;
+    }
+
+    fread(t, sizeof(TableIndex), 1, fichier);
+    fclose(fichier);
+    return true;
+}
+
+bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
+    FILE* fichier = fopen(nom_fich, "wb");
+    if (fichier == NULL) {
+        return false;
+    }
+
+    fwrite(t, sizeof(TableIndex), 1, fichier);
+    fclose(fichier);
+    return true;
+}

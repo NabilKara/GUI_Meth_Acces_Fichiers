@@ -55,11 +55,11 @@ bool tabIndexExis; // verifier si la table d'index existe
 
 bool ouvrir_TOF(TOF* f,char nom_f[],char mode);
 bool fermer_TOF(TOF* f);
-bool lireBloc_TOF(TOF* f,int i,Buffer *buf);
-bool ecrireBloc_TOF(TOF* f,int i,Buffer* buf);
+bool lireBloc_TOF(TOF* f,int i,Buffer_TOF *buf);
+bool ecrireBloc_TOF(TOF* f,int i,Buffer_TOF* buf);
 int entete_TOF(TOF* f,int i);
 bool affecterEntete_TOF(TOF* f,int i,int val);
-bool allouerBloc_TOF(TOF* f);
+int allouerBloc_TOF(TOF* f);
 
 /*----------fonctions liee au traitement sur la table d'index-----------*/
 
@@ -68,9 +68,5 @@ void liberer_TabIndex(TableIndex* t); // liberer l'espace occupe par la table d'
 bool charger_TabIndex(char nom_fich[],TableIndex* t); // charger une table d'index a partir du fichier
 bool sauvegarder_TabIndex(char nom_fich[],TableIndex* t); // sauvegarder une table d'index dans un fichier
 
-//*****fonctions necessaires aux traitements****
-
-bool lire_chaine_TOF(TOF* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
-bool ecrire_chaine_TOF(TOF* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier
 
 #endif INDEX_H_INCLUDED
