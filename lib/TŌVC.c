@@ -21,16 +21,16 @@ bool ouvrir(TŌVC* f,char nom_f[],char mode){
             // printf("Impossible d'ouvrir le fichier");
             return false;    
         }
-        fread(&(f->entete),sizeof(Entete),1,f->fichier);
-        rewind(f);
+        fread(&(f->entete),sizeof(f->entete),1,f->fichier);
+        rewind(f->fichier);
     }
     return true;
 }
 
 bool fermer(TŌVC* f){
-    rewind(f);
+    rewind(f->fichier);
     if(fwrite(&(f->entete),sizeof(f->entete),1,f->fichier) != sizeof(f->entete)) return false;
-    fclose(f);
+    fclose(f->fichier);
     return true;
 }
 
@@ -53,6 +53,8 @@ int entete(TŌVC* f,int i){
         return f->entete.positionLibreDernierBloc;
     case ENTETE_NOMBRE_CHAR_SUP:
         return f->entete.nbCharSupp;
+    case ENTETE_NOMBRE_ENREGISTREMENTS:
+        return f->entete.nbEnreg;
     default:
         printf("Erreur lors du chargement.\n\tCaracteristique n'existe pas");
         return -1;
@@ -70,6 +72,9 @@ bool affecterEntete(TŌVC* f,int i,int val){
     case ENTETE_NOMBRE_CHAR_SUP:
         f->entete.nbCharSupp = val;
         return true;
+    case ENTETE_NOMBRE_ENREGISTREMENTS:
+        f->entete.nbEnreg = val;
+        break;    
     default:
        // printf("Erreur lors du chargement.\n\tCaracteristique n'existe pas");
         return false;
@@ -87,13 +92,13 @@ bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
     {
         if(*j <= MAX_NO_CHARS){
             (*ch)[k] = buf->tab[*j];
-            j++;
+            (*j)++;
         }else{
             // chevauchement
-            i++; // bloc-svt;
+            (*i)++; // passer au bloc suivant;
             if(!lireBloc(f,i,buf)) return false;
             (*ch)[k] = buf->tab[1];
-            j = 2;
+            *j = 2;
         }
     }
     return true;
@@ -101,12 +106,12 @@ bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
 bool ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
     for (int k = 0; k < taille; k++)
     {
-        if(j <= MAX_NO_CHARS){
+        if(*j <= MAX_NO_CHARS){
             buf->tab[*j] = ch[k];
-            j++; 
+            (*j)++; 
         }else{
             // chevauchement
-            i++;
+            (*i)++;
             if(!lireBloc(f,i,buf)) return false;
             buf->tab[1] = ch[k];
             *j = 2;

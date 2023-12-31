@@ -26,7 +26,7 @@ bool rechercher(char nom_fichier[],char cle[20],int *i,int *j){
         if((memcmp(chCle,cle,TAILLE_CLE) == 0) && (memcmp(chEff,'N',TAILLE_CHAR_EFFACEMENT_LOGIQUE) == 0)){
             return true;
         }else{
-            *j = *j +  strToInt(chLong,TAILLE_EFFECTIVE_ENREG) - TAILLE_CLE;
+            *j = *j +  strToInt(chLong) - TAILLE_CLE;
             if(*j > MAX_NO_CHARS){
                 // chevauchement
                 *j -= MAX_NO_CHARS;
@@ -82,7 +82,7 @@ bool suppression_logique(char cle[20], char nom_fichier[]){
         }
     ecrireBloc(fichier,i,buf);
     // mettre a jour le caractere indiquant le nombre de char logiquements supprime
-    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(ch,TAILLE_EFFECTIVE_ENREG)+ TAILLE_EFFECTIVE_ENREG
+    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(ch)+ TAILLE_EFFECTIVE_ENREG
                                                                             + TAILLE_CHAR_EFFACEMENT_LOGIQUE);
     fermer(fichier);
     }

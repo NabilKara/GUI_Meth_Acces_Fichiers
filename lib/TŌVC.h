@@ -9,6 +9,7 @@
 #define ENTETE_NUMERO_DERNIER_BLOC 1
 #define ENTETE_POSLIBRE_DERNIER_BLOC 2
 #define ENTETE_NOMBRE_CHAR_SUP 3
+#define ENTETE_NOMBRE_ENREGISTREMENTS 4
 
 // representation d'un enregistrement
 #define TAILLE_EFFECTIVE_ENREG 3 // la taille effective de la donne dans l'enregistrement est sur 3 octects
@@ -26,6 +27,7 @@ typedef struct
     int numeroDernierBloc;
     int positionLibreDernierBloc;
     int nbCharSupp;
+    int nbEnreg;
 }Entete;
 typedef struct 
 {
@@ -42,7 +44,7 @@ bool lireBloc(TŌVC* f,int i,Buffer *buf);
 bool ecrireBloc(TŌVC* f,int i,Buffer* buf);
 int entete(TŌVC* f,int i);
 bool affecterEntete(TŌVC* f,int i,int val);
-bool allouerBloc(TŌVC* f);
+int allouerBloc(TŌVC* f);
 
 //*****fonctions necessaires aux traitements****
 bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier

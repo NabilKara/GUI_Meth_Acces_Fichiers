@@ -3,7 +3,7 @@
 
 /*---fonctions necessaires au traitement*/
 
-int strToInt(char ch[],int taille);
+int strToInt(char ch[]);
 void intToStr(int n,char ch[]);
 
 #endif
