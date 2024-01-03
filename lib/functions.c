@@ -3,14 +3,19 @@
 #include<stdbool.h>
 #include<string.h>
 
+#include<index.h>
 #include<TŌVC.h>
 #include<functions.h>
 #include<utils.h>
 
-bool rechercher(char nom_fichier[],char cle[20],int *i,int *j){
+bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     TŌVC* fichier;
     Buffer* buf;
-    ouvrir(fichier,nom_fichier,"a");
+    if (!ouvrir(fichier,nom_fichier,"a"))
+    {
+        return false ;
+    }
+    
     *i = 0;
     *j = 0;
     while (*i < entete(fichier,ENTETE_NUMERO_DERNIER_BLOC) &&  *j != entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC)) 
@@ -43,7 +48,10 @@ bool inserer(char e[],int taille,char nom_fichier[]){
     TŌVC* fichier;
     Buffer* buf;
     char c[TAILLE_EFFECTIVE_ENREG];
-    ouvrir(fichier,buf,'a');
+    if (!ouvrir(fichier,buf,'a'))
+    {
+        return false ;
+    }
     int i = entete(fichier,ENTETE_NUMERO_DERNIER_BLOC);
     int j = entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC);
     intToStr(taille,c); 
@@ -63,13 +71,16 @@ bool inserer(char e[],int taille,char nom_fichier[]){
 
     fermer(fichier);
 }
-bool suppression_logique(char cle[20], char nom_fichier[]){
+bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
     TŌVC* fichier;
     Buffer* buf;
     char *ch[TAILLE_EFFECTIVE_ENREG];
     int i,j;
     if(rechercher(nom_fichier,cle,&i,&j)){
-        ouvrir(fichier,nom_fichier,'a');
+        if (!ouvrir(fichier,nom_fichier,'a'))
+        {
+            return false ;
+        }
         lireBloc(fichier,i,buf);
         lire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,ch);
         if(j <= MAX_NO_CHARS){
@@ -95,8 +106,9 @@ int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
     }else{
         int bi = 0, bs = t->taille;
         bool trouv = false;
+        int mid ;
         while(bi <= bs && !trouv){
-            int mid = (bi+bs)/2;
+            mid = (bi+bs)/2;
             int cmp = strcmp(t->tab[mid].cle,cle);
             if(!cmp) {
                 trouv = true;
@@ -110,4 +122,36 @@ int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
     }
 }
 
-void creerTableIndex(char nom_fich[]){}
+bool creerTableIndex(char nom_fich[])
+{
+    TŌVC *f;
+    if (!ouvrir(f,nom_fich,'A'))
+    {
+        printf("Erreur de l'ouverture de fichier");
+        exit(1) ;
+    }
+    tabIndex = alloc_TabIndex();
+    Buffer *buf ;
+    DataIndex data;
+    char position[TAILLE_EFFECTIVE_ENREG] ;
+    int i = 1 ;
+    int j = 0 ;
+    while (i <= f->entete.numeroDernierBloc)
+    {
+        if(!lireBloc(f,i,buf))
+        {
+            return false;
+        }
+        strncpy(data.cle,buf,TAILLE_CLE);
+        data.numBloc = i ;
+        recupererStr(buf,TAILLE_CLE+1,position) ;
+        data.posBloc = TAILLE_CLE + 1 + TAILLE_EFFECTIVE_ENREG + strToInt(position) ;
+        if(!updateTableIndex(data,tabIndex,'A'))
+        {
+            return false;
+        }
+        i++ ;
+    }
+
+    
+}

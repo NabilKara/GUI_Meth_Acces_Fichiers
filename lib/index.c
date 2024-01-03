@@ -1,5 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
+#include<string.h>
+
 #include<index.h>
 #include<TŌVC.h>
 
@@ -152,4 +154,82 @@ bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     affecterEntete_TOF(&f,ENTETE_NOMBRE_ENREGISTREMENTS,t->taille); 
     fermer_TOF(&f);
     return true;
+}
+
+
+bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action)
+{
+
+    if (action == 'S' || action == 's')
+    {
+        bool trouve = false ;
+        int i = 0; 
+        while (i < t->taille && !trouve)
+        {
+            if (strcmp(t->tab[i].cle,dataInd.cle) == 0)
+            {
+                trouve = true ;
+            }
+            i++ ;
+        }
+        if (trouve == true)
+        {
+            for (int j = i; j < t->taille - 1; j++)
+            {
+                t->tab[j] = t->tab[j+1] ;
+            }
+        }
+        t->taille-- ;//decrementer la taille 
+        return trouve ;
+        
+    }
+    else if (action == 'A' || action == 'a')
+        {
+            if (t->taille == MAX_INDEX)
+            {
+                return false ;//la table est plaine
+            }
+            // recherche dicho 
+            int debut , fin , milieu ;
+            debut = 0 ;
+            fin = t->taille ;
+            
+            while ((fin - debut) != 1)
+            {
+                milieu = (debut + fin) / 2 ;
+                if(strcmp(t->tab[milieu].cle,dataInd.cle) == 0)
+                {
+                    return false ;// la valeur deja existe
+                }
+                else if (strcmp(t->tab[milieu].cle,dataInd.cle) < 0) // t->tab[milieu] < cle
+                     {
+                        debut = milieu ;
+                     }
+                     else
+                     {
+                        fin = milieu ;
+                     }                
+                
+            }
+
+
+            for (int i = t->taille ; i >= fin ; i--)
+            {
+                t->tab[i]= t->tab[i-1] ;
+            }
+
+            t->tab[debut+1] = dataInd ;
+            t->taille++ ;
+
+            return true; //succes Ajout 
+            
+
+        }
+        else
+        {
+            return false; //action != 'A' et action != 'S'
+        }
+        
+    
+    
 }

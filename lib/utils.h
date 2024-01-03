@@ -5,5 +5,6 @@
 
 int strToInt(char ch[]);
 void intToStr(int n,char ch[]);
+void recupererStr(char source[] , int debut , char dest[]);
 
 #endif

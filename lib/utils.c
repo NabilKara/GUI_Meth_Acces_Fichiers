@@ -21,3 +21,14 @@ void intToStr(int n,char ch[])
         sprintf(ch , "%d" , n) ;
     }
 }
+
+void recupererStr(char source[MAX_NO_CHARS] , int debut , char dest[TAILLE_EFFECTIVE_ENREG])
+{
+    int j = 0 ;
+    for (int i = debut; i < debut + TAILLE_EFFECTIVE_ENREG ; i++)
+    {
+        dest[j] = source[i] ;
+        j++ ;
+    }
+    
+}

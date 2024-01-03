@@ -66,6 +66,6 @@ TableIndex* alloc_TabIndex(); // allouer un espace en MC pour la table d'index
 void liberer_TabIndex(TableIndex** t); // liberer l'espace occupe par la table d'index
 bool charger_TabIndex(char nom_fich[],TableIndex* t); // charger une table d'index a partir du fichier
 bool sauvegarder_TabIndex(char nom_fich[],TableIndex* t); // sauvegarder une table d'index dans un fichier
-
+bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action); //action = 'A' pour Ajouter ou 'S' pour Supprimer
 
 #endif INDEX_H_INCLUDED
