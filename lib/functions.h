@@ -13,4 +13,4 @@ bool inserer(char e[],int taille,char nom_fichier[]);
 bool suppression_logique(char cle[20], char nom_fichier[]);
 
 int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]);
-TableIndex* creerTableIndex(char nom_fich[]);
+bool creerTableIndex(char nom_fich[]);
