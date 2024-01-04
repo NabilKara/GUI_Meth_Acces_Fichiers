@@ -3,19 +3,15 @@
 #include<stdbool.h>
 #include<string.h>
 
-#include<index.h>
 #include<TŌVC.h>
 #include<functions.h>
 #include<utils.h>
 
-bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
+bool rechercher(char nom_fichier[],char cle[20],int *i,int *j){
     TŌVC* fichier;
     Buffer* buf;
-    if (!ouvrir(fichier,nom_fichier,"a"))
-    {
-        return false ;
-    }
-    
+    bool trouv = false;
+    ouvrir(fichier,nom_fichier,"a");
     *i = 0;
     *j = 0;
     while (*i < entete(fichier,ENTETE_NUMERO_DERNIER_BLOC) &&  *j != entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC)) 
@@ -29,9 +25,9 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
         lire_chaine(fichier,buf,i,j,TAILLE_CLE,&chCle);
         
         if((memcmp(chCle,cle,TAILLE_CLE) == 0) && (memcmp(chEff,'N',TAILLE_CHAR_EFFACEMENT_LOGIQUE) == 0)){
-            return true;
+            trouv = true;
         }else{
-            *j = *j +  strToInt(chLong) - TAILLE_CLE;
+            *j = *j +  strToInt(chLong,TAILLE_EFFECTIVE_ENREG) - TAILLE_CLE;
             if(*j > MAX_NO_CHARS){
                 // chevauchement
                 *j -= MAX_NO_CHARS;
@@ -42,19 +38,16 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     }
     fermer(fichier);
     
-    return false;
+    return trouv;
 }
 bool inserer(char e[],int taille,char nom_fichier[]){
     TŌVC* fichier;
     Buffer* buf;
     char c[TAILLE_EFFECTIVE_ENREG];
-    if (!ouvrir(fichier,buf,'a'))
-    {
-        return false ;
-    }
+    ouvrir(fichier,buf,'a');
     int i = entete(fichier,ENTETE_NUMERO_DERNIER_BLOC);
     int j = entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC);
-    intToStr(taille,c); 
+    intToStr(taille,&c); 
     
     ecrire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,c);
     ecrire_chaine(fichier,buf,&i,&j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,"N");
@@ -71,16 +64,13 @@ bool inserer(char e[],int taille,char nom_fichier[]){
 
     fermer(fichier);
 }
-bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
+bool suppression_logique(char cle[20], char nom_fichier[]){
     TŌVC* fichier;
     Buffer* buf;
     char *ch[TAILLE_EFFECTIVE_ENREG];
     int i,j;
     if(rechercher(nom_fichier,cle,&i,&j)){
-        if (!ouvrir(fichier,nom_fichier,'a'))
-        {
-            return false ;
-        }
+        ouvrir(fichier,nom_fichier,'a');
         lireBloc(fichier,i,buf);
         lire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,ch);
         if(j <= MAX_NO_CHARS){
@@ -93,65 +83,8 @@ bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
         }
     ecrireBloc(fichier,i,buf);
     // mettre a jour le caractere indiquant le nombre de char logiquements supprime
-    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(ch)+ TAILLE_EFFECTIVE_ENREG
+    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(ch,TAILLE_EFFECTIVE_ENREG)+ TAILLE_EFFECTIVE_ENREG
                                                                             + TAILLE_CHAR_EFFACEMENT_LOGIQUE);
     fermer(fichier);
     }
-}
-
-int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
-    
-    if(t == NULL){
-        return -1;
-    }else{
-        int bi = 0, bs = t->taille;
-        bool trouv = false;
-        int mid ;
-        while(bi <= bs && !trouv){
-            mid = (bi+bs)/2;
-            int cmp = strcmp(t->tab[mid].cle,cle);
-            if(!cmp) {
-                trouv = true;
-            }else if(cmp < 0){ // cle > cle de la table d'index
-                bi = mid+1;
-            }else{
-                bs = mid-1;
-            }
-        }
-        return mid;
-    }
-}
-
-bool creerTableIndex(char nom_fich[])
-{
-    TŌVC *f;
-    if (!ouvrir(f,nom_fich,'A'))
-    {
-        printf("Erreur de l'ouverture de fichier");
-        exit(1) ;
-    }
-    tabIndex = alloc_TabIndex();
-    Buffer *buf ;
-    DataIndex data;
-    char position[TAILLE_EFFECTIVE_ENREG] ;
-    int i = 1 ;
-    int j = 0 ;
-    while (i <= f->entete.numeroDernierBloc)
-    {
-        if(!lireBloc(f,i,buf))
-        {
-            return false;
-        }
-        strncpy(data.cle,buf,TAILLE_CLE);
-        data.numBloc = i ;
-        recupererStr(buf,TAILLE_CLE+1,position) ;
-        data.posBloc = TAILLE_CLE + 1 + TAILLE_EFFECTIVE_ENREG + strToInt(position) ;
-        if(!updateTableIndex(data,tabIndex,'A'))
-        {
-            return false;
-        }
-        i++ ;
-    }
-
-    
 }

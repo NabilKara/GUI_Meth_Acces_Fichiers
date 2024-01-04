@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include <string.h>
 #include<utils.h>
-#include<TŌVC.h>
 
 int strToInt(char ch[])
 {
@@ -11,7 +10,7 @@ int strToInt(char ch[])
 
 void intToStr(int n,char ch[])
 { 
-    if(n < 0 || n > MAX_NO_CHARS)
+    if(n > 999)
     {
         printf("ERREUR !!!!");
         exit(1) ;
@@ -20,15 +19,4 @@ void intToStr(int n,char ch[])
     {
         sprintf(ch , "%d" , n) ;
     }
-}
-
-void recupererStr(char source[MAX_NO_CHARS] , int debut , char dest[TAILLE_EFFECTIVE_ENREG])
-{
-    int j = 0 ;
-    for (int i = debut; i < debut + TAILLE_EFFECTIVE_ENREG ; i++)
-    {
-        dest[j] = source[i] ;
-        j++ ;
-    }
-    
 }

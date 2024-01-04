@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="Release" />
+	<File name="teleporter.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="433" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="megabomb.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="11714" topLine="143" />
+		</Cursor>
+	</File>
+	<File name="config.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="17950" topLine="315" />
+		</Cursor>
+	</File>
+	<File name="sand.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="256" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="gamecontroller.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1975" topLine="48" />
+		</Cursor>
+	</File>
+	<File name="sound.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4623" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="panel.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2916" topLine="48" />
+		</Cursor>
+	</File>
+	<File name="GetTextureIndexByElement.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="164" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="asteroids.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1541" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="man.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="23121" topLine="403" />
+		</Cursor>
+	</File>
+	<File name="emerald.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13922" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="lightbarrier.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6618" topLine="145" />
+		</Cursor>
+	</File>
+	<File name="yam.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="293" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="mine.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7645" topLine="119" />
+		</Cursor>
+	</File>
+	<File name="copper.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9998" topLine="209" />
+		</Cursor>
+	</File>
+	<File name="greendrop.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="175" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="steel_wall_grow.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="638" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="perl.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3351" topLine="39" />
+		</Cursor>
+	</File>
+	<File name="KeyboardMouse.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6346" topLine="119" />
+		</Cursor>
+	</File>
+	<File name="explosion.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1928" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="sdlmixer_mixer.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13133" topLine="350" />
+		</Cursor>
+	</File>
+	<File name="mySDL.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="EmeraldMine.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="44405" topLine="518" />
+		</Cursor>
+	</File>
+	<File name="explosion.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="74270" topLine="1130" />
+		</Cursor>
+	</File>
+	<File name="loadlevel.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="68270" topLine="1259" />
+		</Cursor>
+	</File>
+	<File name="miniz.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="120" />
+		</Cursor>
+	</File>
+	<File name="crystal.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13696" topLine="65" />
+		</Cursor>
+	</File>
+	<File name="scroller.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1411" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="highscores.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1285" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="replicator.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="RenderLevel.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7172" topLine="160" />
+		</Cursor>
+	</File>
+	<File name="bomb.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="118" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="ruby.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13818" topLine="183" />
+		</Cursor>
+	</File>
+	<File name="ezxml.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16876" topLine="391" />
+		</Cursor>
+	</File>
+	<File name="smileys.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4381" topLine="103" />
+		</Cursor>
+	</File>
+	<File name="mystd.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1482" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="EmeraldMineMainMenu.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1551" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="alien.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10992" topLine="137" />
+		</Cursor>
+	</File>
+	<File name="magicwall.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3304" topLine="52" />
+		</Cursor>
+	</File>
+	<File name="modplay.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="18" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="default_levelgroup.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="89831" topLine="911" />
+		</Cursor>
+	</File>
+	<File name="sdlmixer_effect_position.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="14866" topLine="406" />
+		</Cursor>
+	</File>
+	<File name="levelconverter.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="213" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="teleporter.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16206" topLine="256" />
+		</Cursor>
+	</File>
+	<File name="md5.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1729" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="buttons_checkboxes.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1571" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="sand.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1758" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="gamecontroller.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="29471" topLine="408" />
+		</Cursor>
+	</File>
+	<File name="sound.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7281" topLine="46" />
+		</Cursor>
+	</File>
+	<File name="FillLevelArea.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="237" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="asteroids.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8961" topLine="145" />
+		</Cursor>
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3316" topLine="45" />
+		</Cursor>
+	</File>
+	<File name="mole.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10627" topLine="147" />
+		</Cursor>
+	</File>
+	<File name="editor.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="252" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="levelgroupoperation.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="466" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="yam.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="21159" topLine="334" />
+		</Cursor>
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2798" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="saphir.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13909" topLine="180" />
+		</Cursor>
+	</File>
+	<File name="greendrop.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1745" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="steel_wall_grow.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5354" topLine="112" />
+		</Cursor>
+	</File>
+	<File name="GetTextureIndexByElement.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="113" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="beetle.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12223" topLine="195" />
+		</Cursor>
+	</File>
+	<File name="man.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2086" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="sdlmixer_effects_internal.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1330" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="mySDL.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="30214" topLine="638" />
+		</Cursor>
+	</File>
+	<File name="EmeraldMine.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="436" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="emerald.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="100" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="mine.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="388" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="copper.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="855" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="scroller.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1424" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="highscores.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6324" topLine="116" />
+		</Cursor>
+	</File>
+	<File name="stone.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3546" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="KeyboardMouse.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="682" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="bomb.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="14983" topLine="212" />
+		</Cursor>
+	</File>
+	<File name="externalpointer.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="126" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="mystd.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9442" topLine="208" />
+		</Cursor>
+	</File>
+	<File name="EmeraldMineMainMenu.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="152108" topLine="3095" />
+		</Cursor>
+	</File>
+	<File name="RenderLevel.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="126" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="loadlevel.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5072" topLine="72" />
+		</Cursor>
+	</File>
+	<File name="miniz.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9956" topLine="336" />
+		</Cursor>
+	</File>
+	<File name="crystal.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="58" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="sdlmixer_SDL_mixer.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7793" topLine="168" />
+		</Cursor>
+	</File>
+	<File name="levelconverter.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="40478" topLine="517" />
+		</Cursor>
+	</File>
+	<File name="stone.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="194" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="md5.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8039" topLine="195" />
+		</Cursor>
+	</File>
+	<File name="buttons_checkboxes.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="25477" topLine="548" />
+		</Cursor>
+	</File>
+	<File name="ezxml.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5485" topLine="106" />
+		</Cursor>
+	</File>
+	<File name="smileys.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="128" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="nut.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13317" topLine="107" />
+		</Cursor>
+	</File>
+	<File name="FillLevelArea.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5627" topLine="104" />
+		</Cursor>
+	</File>
+	<File name="alien.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="163" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="modplay.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="866" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="editor.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="94236" topLine="1442" />
+		</Cursor>
+	</File>
+	<File name="levelgroupoperation.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16764" topLine="286" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>
