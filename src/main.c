@@ -57,11 +57,11 @@ int H=700,W=1070;
 
     screen=SDL_GetWindowSurface(window);
     SDL_Surface* image;
-    image = SDL_LoadBMP("./textures/purplefluid.bmp");
+    image = SDL_LoadBMP("./assets/purplefluid.bmp");
     SDL_Texture* mymenu=SDL_CreateTextureFromSurface(renderer, image); 
     SDL_FreeSurface(image);
       SDL_Surface* image1;
-    image = SDL_LoadBMP("./textures/purplefluid.bmp");
+    image = SDL_LoadBMP("./assets/purplefluid.bmp");
     SDL_Texture* mymeminput=SDL_CreateTextureFromSurface(renderer, image); 
     SDL_FreeSurface(image);
  
@@ -71,7 +71,7 @@ SDL_Color red={250,0,0};
 SDL_Color green={0,255,0};
 //PURPLE{90,14,200};
 
-    TTF_Font* bigFont= TTF_OpenFont("./textures/FrontPageNeue.otf",32);
+    TTF_Font* bigFont= TTF_OpenFont("./assets/FrontPageNeue.otf",32);
    
     if(bigFont == NULL){
     printf("could not load the font");
@@ -82,7 +82,7 @@ SDL_Color green={0,255,0};
     SDL_FreeSurface(titleSurf); 
 
 
-    TTF_Font* smallFont= TTF_OpenFont("./textures/FrontPageNeue.otf",32);
+    TTF_Font* smallFont= TTF_OpenFont("./assets/FrontPageNeue.otf",32);
     
     if(smallFont == NULL){
     printf("could not load the font\n");
@@ -207,7 +207,7 @@ if(inPlay){
 
  SDL_Surface* image;
  
-    image = SDL_LoadBMP("./textures/interyourblocsize.bmp");
+    image = SDL_LoadBMP("./assets/interyourblocsize.bmp");
     SDL_BlitSurface(image,NULL,screen,NULL);
     SDL_FreeSurface(image);
     SDL_UpdateWindowSurface(window);
@@ -217,7 +217,7 @@ if(inPlay){
     
 
     SDL_Surface* image1;
-    image1 = SDL_LoadBMP("./textures/internumberofblocs.bmp");
+    image1 = SDL_LoadBMP("./assets/internumberofblocs.bmp");
     SDL_BlitSurface(image1,NULL,screen,NULL);
     SDL_FreeSurface(image1);
     SDL_UpdateWindowSurface(window);
@@ -233,7 +233,7 @@ SDL_DestroyWindow(window);
         SDL_Delay(300);
 renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
-   image1 = SDL_LoadBMP("./textures/purplefluidmainwithbufferexemple.bmp");
+   image1 = SDL_LoadBMP("./assets/purplefluidmainwithbufferexemple.bmp");
     SDL_Texture*  mainText =SDL_CreateTextureFromSurface(renderer, image1);
     SDL_FreeSurface(image1);
 
@@ -283,24 +283,24 @@ renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
 
 //coordinate of first physiacal (enregistrement hhhh):(150,264)(500+50,314+40)
 //coordinate of premiere entete physique:(100,264)(200,400)
-SDL_Surface *entetelibreSurf = SDL_LoadBMP("./textures/emptyentete.bmp");
+SDL_Surface *entetelibreSurf = SDL_LoadBMP("./assets/emptyentete.bmp");
 SDL_SetColorKey(entetelibreSurf, SDL_TRUE,  SDL_MapRGB(entetelibreSurf->format,255,255,250));
 SDL_Texture* entetelibreText =SDL_CreateTextureFromSurface(renderer, entetelibreSurf);
 SDL_FreeSurface(entetelibreSurf);
 
-SDL_Surface *fullenteteSurf = SDL_LoadBMP("./textures/fullentete.bmp");
+SDL_Surface *fullenteteSurf = SDL_LoadBMP("./assets/fullentete.bmp");
 SDL_SetColorKey(fullenteteSurf, SDL_TRUE,  SDL_MapRGB(fullenteteSurf->format,255,255,250));
 SDL_Texture* fullenteteText =SDL_CreateTextureFromSurface(renderer, fullenteteSurf);
 SDL_FreeSurface(fullenteteSurf);
 
-SDL_Surface *entetchevaucherSurf = SDL_LoadBMP("./textures/chevauchedentete.bmp");
+SDL_Surface *entetchevaucherSurf = SDL_LoadBMP("./assets/chevauchedentete.bmp");
 SDL_SetColorKey(entetchevaucherSurf, SDL_TRUE,  SDL_MapRGB(entetchevaucherSurf->format,255,255,250));
 SDL_Texture* entetchevaucherText =SDL_CreateTextureFromSurface(renderer, entetchevaucherSurf);
 SDL_FreeSurface(entetchevaucherSurf);
 //coordinate of buffer example : (600,500)(1000,600)
 
 //creating our tilemap (memory)
-SDL_Surface *memorySurface = SDL_LoadBMP("./textures/buffer.bmp");
+SDL_Surface *memorySurface = SDL_LoadBMP("./assets/buffer.bmp");
 SDL_SetColorKey(memorySurface, SDL_TRUE,  SDL_MapRGB(memorySurface->format,255,255,250));
 SDL_Texture* memoryTexture =SDL_CreateTextureFromSurface(renderer, memorySurface);
 SDL_FreeSurface(memorySurface);
