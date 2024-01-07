@@ -74,6 +74,7 @@ bool affecterEntete(TŌVC* f,int i,int val){
         return true;
     case ENTETE_NOMBRE_ENREGISTREMENTS:
         f->entete.nbEnreg = val;
+        return true;
         break;    
     default:
        // printf("Erreur lors du chargement.\n\tCaracteristique n'existe pas");
