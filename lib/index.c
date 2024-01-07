@@ -163,14 +163,26 @@ bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action)
     if (action == 'S' || action == 's')
     {
         bool trouve = false ;
-        int i = 0; 
-        while (i < t->taille && !trouve)
+        int i = 0 ; 
+        int j = t->taille ;
+        int m ;
+        while (i < j && !trouve)
         {
-            if (strcmp(t->tab[i].cle,dataInd.cle) == 0)
+            m = (i+j) / 2 ;
+            if (strcmp(t->tab[m].cle,dataInd.cle) == 0)
             {
                 trouve = true ;
             }
-            i++ ;
+            else if (strcmp(t->tab[m].cle,dataInd.cle) < 0)
+                 {
+                    i = m + 1 ;
+                 }
+                 else
+                 {
+                    j = m ;
+                 }
+                 
+            
         }
         if (trouve == true)
         {

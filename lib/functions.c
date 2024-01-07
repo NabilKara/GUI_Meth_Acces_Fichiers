@@ -124,13 +124,23 @@ int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
 
 bool creerTableIndex(char nom_fich[])
 {
+    tabIndexExis = false ;
     TŌVC *f;
-    if (!ouvrir(f,nom_fich,'A'))
+    if (!ouvrir(f,nom_fich,'A')) // ouvrir le fichier au mode ancien
     {
         printf("Erreur de l'ouverture de fichier");
-        exit(1) ;
+        return false;
     }
+
+    // fichier TŌVC vide
+    if (entete(f, ENTETE_NUMERO_DERNIER_BLOC) <= 0)
+    {
+        fermer(f);
+        return false;
+    }
+
     tabIndex = alloc_TabIndex();
+    tabIndex->taille = 0 ;
     Buffer *buf ;
     DataIndex data;
     char position[TAILLE_EFFECTIVE_ENREG] ;
@@ -153,5 +163,6 @@ bool creerTableIndex(char nom_fich[])
         i++ ;
     }
 
-    
+    tabIndexExis = true ;
+    return true ;
 }
