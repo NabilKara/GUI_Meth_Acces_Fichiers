@@ -3,7 +3,7 @@
 #endif
 
 #include<stdbool.h>
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
+#include "index.h"
 
 /*---Operations fondamentales sur les fichiers---*/
 

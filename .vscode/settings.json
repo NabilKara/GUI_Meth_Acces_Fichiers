@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "index.h": "c",
-        "tnovc.h": "c"
+        "tnovc.h": "c",
+        "utils.h": "c"
     }
 }

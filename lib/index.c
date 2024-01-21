@@ -2,8 +2,8 @@
 #include<stdio.h>
 #include<string.h>
 
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
+#include "index.h"
+#include "TnOVC.h"
 
 
  // fonctions du modele

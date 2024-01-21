@@ -2,8 +2,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include<string.h>
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.c"
+#include "TnOVC.h"
 int main()
 {
     TnOVC* f = malloc(sizeof(TnOVC));

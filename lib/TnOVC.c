@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include"/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
+#include"TnOVC.h"
 
 bool ouvrir(TnOVC* f,char nom_f[],char mode){
     if(mode == 'N' || mode == 'n'){
