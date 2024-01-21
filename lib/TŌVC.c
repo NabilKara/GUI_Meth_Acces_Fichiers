@@ -41,7 +41,7 @@ bool lireBloc(TŌVC* f,int i,Buffer *buf){
 }
 bool ecrireBloc(TŌVC* f,int i,Buffer* buf){
     fseek(f->fichier,sizeof(Bloc)*(i-1) + sizeof(Entete),SEEK_SET);
-    if(fwrite(buf,sizeof(Buffer),1,f->fichier) != sizeof(Buffer)) return false;
+    if(!fwrite(buf,sizeof(Buffer),1,f->fichier)) return false;
     return true;
 }
 int entete(TŌVC* f,int i){

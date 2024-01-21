@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}"
+                "${workspaceFolder}",
+                "${workspaceFolder}",
+                "C:/msys64/mingw64/include/c++/13.2.0/debug"
             ],
             "defines": [
                 "_DEBUG",
