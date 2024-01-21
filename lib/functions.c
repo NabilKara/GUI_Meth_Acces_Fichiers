@@ -72,7 +72,8 @@ bool inserer(char e[],int taille,char nom_fichier[]){
     int i = entete(fichier,ENTETE_NUMERO_DERNIER_BLOC);
     int j = entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC);
     intToStr(taille,c); 
-    
+    i = 1;
+    j = 12;
     ecrire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,c);
     ecrire_chaine(fichier,buf,&i,&j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,"N");
     ecrire_chaine(fichier,buf,&i,&j,taille,e);
