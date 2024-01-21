@@ -1,8 +1,8 @@
+#ifndef TnOVC_H_INCLUDED
+#define TnOVC_H_INCLUDED
+
 #include <stdio.h>
 #include <stdbool.h>
-#ifndef TŌVC_H_INCLUDED 
-#define TŌVC_H_INCLUDED
-
 /*---Constantes---*/
 #define MAX_NO_CHARS 999 //le nombre maximal des caracteres dans un bloc
 
@@ -34,20 +34,20 @@ typedef struct
 {
     Entete entete;
     FILE* fichier;
-}TŌVC;
+}TnOVC;
 
 
 /*---Fonctions du modele abstrait---*/
 //*****fonctions propres au modele****
-bool ouvrir(TŌVC* f,char nom_f[],char mode);
-bool fermer(TŌVC* f);
-bool lireBloc(TŌVC* f,int i,Buffer *buf);
-bool ecrireBloc(TŌVC* f,int i,Buffer* buf);
-int entete(TŌVC* f,int i);
-bool affecterEntete(TŌVC* f,int i,int val);
-int allouerBloc(TŌVC* f);
+bool ouvrir(TnOVC* f,char nom_f[],char mode);
+bool fermer(TnOVC* f);
+bool lireBloc(TnOVC* f,int i,Buffer *buf);
+bool ecrireBloc(TnOVC* f,int i,Buffer* buf);
+int entete(TnOVC* f,int i);
+bool affecterEntete(TnOVC* f,int i,int val);
+int allouerBloc(TnOVC* f);
 
 //*****fonctions necessaires aux traitements****
-bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
-bool ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier
-#endif // TŌVC_H_INCLUDED
+bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
+bool ecrire_chaine(TnOVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier
+#endif // TnOVC_H_INCLUDED

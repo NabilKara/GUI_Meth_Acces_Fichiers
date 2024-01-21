@@ -2,8 +2,11 @@
 #include<stdio.h>
 #include<string.h>
 
-#include<index.h>
-#include<TŌVC.h>
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
+
+
+ // fonctions du modele
 
 int entete_TOF(TOF* f,int i){
     switch (i)
@@ -85,15 +88,33 @@ int allouerBloc_TOF(TOF* f){
     return numDernierBloc;
 }
 
+/**
+ * @brief allouer la table d'index en MC
+ * 
+ * @return TableIndex* 
+ */
 TableIndex* alloc_TabIndex(){
     return (TableIndex*) calloc(sizeof(TableIndex),1);
 };
 
+/**
+ * @brief Liberer la table d'index de la MC
+ * 
+ * @param t La table d'index 
+ */
 void liberer_TabIndex(TableIndex** t){
     free(*t);
     *t = NULL;
 }
- 
+
+/**
+ * @brief charger la table d'index depuis un fichier TOF
+ * 
+ * @param nom_fich nom du fichier
+ * @param t La table d'index
+ * @return true 
+ * @return false 
+ */
 bool charger_TabIndex(char nom_fich[], TableIndex* t) {
     TOF f;
     Buffer_TOF* buf;
@@ -117,6 +138,14 @@ bool charger_TabIndex(char nom_fich[], TableIndex* t) {
     return true;
 }
 
+/**
+ * @brief Sauvegarder la table d'index dans un fichier TOF
+ * 
+ * @param nom_fich nom du fichier
+ * @param t La table d'index
+ * @return true 
+ * @return false 
+ */
 bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     
     TOF f;
@@ -156,7 +185,15 @@ bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     return true;
 }
 
-
+/**
+ * @brief Mettre a jour la table d'index (insertion , suppression)
+ * 
+ * @param dataInd L'index de l'enregistrement dans la table d'index
+ * @param t La table d'index
+ * @param action 
+ * @return true 
+ * @return false 
+ */
 bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action)
 {
 
@@ -240,8 +277,5 @@ bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action)
         else
         {
             return false; //action != 'A' et action != 'S'
-        }
-        
-    
-    
+        }   
 }

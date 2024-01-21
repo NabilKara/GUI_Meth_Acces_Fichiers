@@ -1,14 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include<TŌVC.h>
+#include"/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
 
-bool ouvrir(TŌVC* f,char nom_f[],char mode){
+bool ouvrir(TnOVC* f,char nom_f[],char mode){
     if(mode == 'N' || mode == 'n'){
-        f->fichier = fopen(nom_f,"wb+");    
+        f->fichier = fopen(nom_f,"w+");    
         if(f->fichier == NULL) {
         printf("Impossible d'ouvrir le fichier");
-        return;
+        return false;
         } 
         affecterEntete(f,ENTETE_NUMERO_DERNIER_BLOC,0); // initialement le dernier bloc est le premier
         affecterEntete(f,ENTETE_POSLIBRE_DERNIER_BLOC,0); // initialement la premiere position est vide
@@ -16,7 +16,7 @@ bool ouvrir(TŌVC* f,char nom_f[],char mode){
         fwrite(&(f->entete),sizeof(Entete),1,f->fichier);
         rewind(f->fichier);
     }else if(mode == 'A'){
-        f->fichier = fopen(nom_f,"rb+");
+        f->fichier = fopen(nom_f,"r+");
         if(f->fichier == NULL) {
             // printf("Impossible d'ouvrir le fichier");
             return false;    
@@ -27,24 +27,24 @@ bool ouvrir(TŌVC* f,char nom_f[],char mode){
     return true;
 }
 
-bool fermer(TŌVC* f){
+bool fermer(TnOVC* f){
     rewind(f->fichier);
     if(fwrite(&(f->entete),sizeof(f->entete),1,f->fichier) != sizeof(f->entete)) return false;
     fclose(f->fichier);
     return true;
 }
 
-bool lireBloc(TŌVC* f,int i,Buffer *buf){
+bool lireBloc(TnOVC* f,int i,Buffer *buf){
     fseek(f->fichier,sizeof(Bloc)*(i-1) + sizeof(Entete),SEEK_SET);
     if(!fread(buf,sizeof(Buffer),1,f->fichier)) return false; 
     return true;
 }
-bool ecrireBloc(TŌVC* f,int i,Buffer* buf){
+bool ecrireBloc(TnOVC* f,int i,Buffer* buf){
     fseek(f->fichier,sizeof(Bloc)*(i-1) + sizeof(Entete),SEEK_SET);
     if(!fwrite(buf,sizeof(Buffer),1,f->fichier)) return false;
     return true;
 }
-int entete(TŌVC* f,int i){
+int entete(TnOVC* f,int i){
     switch (i)
     {
     case ENTETE_NUMERO_DERNIER_BLOC:
@@ -60,7 +60,7 @@ int entete(TŌVC* f,int i){
         return -1;
     }
 }
-bool affecterEntete(TŌVC* f,int i,int val){
+bool affecterEntete(TnOVC* f,int i,int val){
     switch (i)
     {
     case ENTETE_NUMERO_DERNIER_BLOC:
@@ -81,13 +81,24 @@ bool affecterEntete(TŌVC* f,int i,int val){
         return false;
     }
 }
-int allouerBloc(TŌVC* f){
+int allouerBloc(TnOVC* f){
     int numDernierBloc = entete(f,ENTETE_NUMERO_DERNIER_BLOC)+1;
     if(!affecterEntete(f,ENTETE_NUMERO_DERNIER_BLOC,numDernierBloc)) return -1;
     return numDernierBloc;
 }
 
-bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
+
+/**
+* @brief lire une chaine de caracteres depuis un fichier
+* @param f pointeur vers un fichier de type TnOVC
+* @param buf Buffer en MC 
+* @param i pointeur sur le numero du bloc
+* @param j pointeur sur la position dans le bloc j
+* @param taille taille de la chaine a lire
+* @param chaine resultat de la lecture
+* @return bool
+*/
+bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
     *ch = calloc(taille+1,sizeof(char));
     for (int k = 0; k < taille; k++)
     {
@@ -104,7 +115,19 @@ bool lire_chaine(TŌVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
     }
     return true;
 }
-bool ecrire_chaine(TŌVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
+
+/**
+* @brief ecrire une chaine de caracteres dans un fichier
+* @param f pointeur vers un fichier de type TnOVC
+* @param buf Buffer en MC 
+* @param i pointeur sur le numero du bloc
+* @param j pointeur sur la position dans le bloc j
+* @param taille taille de la chaine a ecrire
+* @param chaine la chaine a ecrire
+* @return true
+* @return false
+*/
+bool ecrire_chaine(TnOVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
     for (int k = 0; k < taille; k++)
     {
         if(*j <= MAX_NO_CHARS){

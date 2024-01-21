@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib"
             ],
             "defines": [
                 "_DEBUG",
@@ -13,7 +14,7 @@
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64",
-            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe"
+            "compilerPath": "/usr/bin/gcc"
         }
     ],
     "version": 4

@@ -3,13 +3,24 @@
 #include<stdbool.h>
 #include<string.h>
 
-#include<index.h>
-#include<TŌVC.h>
+#include"/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
+#include"/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
 #include<functions.h>
 #include<utils.h>
 
+
+/**
+ * @brief rechercher un enregistrement a base d'une cle dans un fichier TnOVC
+ * 
+ * @param nom_fichier nom du fichier 
+ * @param cle identifiant de l'enregistrement
+ * @param i numero du bloc ou devrait se trouver l'enregistrement
+ * @param j position dans le bloc ou devrait se trouver l'enregistrement
+ * @return true 
+ * @return false 
+ */
 bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
-    TŌVC* fichier;
+    TnOVC* fichier;
     Buffer* buf;
     if (!ouvrir(fichier,nom_fichier,"a"))
     {
@@ -44,8 +55,18 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     
     return false;
 }
+
+/**
+ * @brief inserer un enregistrement dans un fichier TnOVC
+ * 
+ * @param e la donnee a inserer  a inserer
+ * @param taille taille effective de la donnee
+ * @param nom_fichier nom du fichier
+ * @return true 
+ * @return false 
+ */
 bool inserer(char e[],int taille,char nom_fichier[]){
-    TŌVC* fichier;
+    TnOVC* fichier;
     Buffer* buf;
     char c[TAILLE_EFFECTIVE_ENREG];
     if (!ouvrir(fichier,buf,'a'))
@@ -71,8 +92,18 @@ bool inserer(char e[],int taille,char nom_fichier[]){
 
     fermer(fichier);
 }
+
+
+/**
+ * @brief supprimer un enregistrement d'un fichier TnOVC a base de son cle
+ * 
+ * @param cle identifiant de l'enregistrement
+ * @param nom_fichier nom du fichier
+ * @return true 
+ * @return false 
+ */
 bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
-    TŌVC* fichier;
+    TnOVC* fichier;
     Buffer* buf;
     char *ch[TAILLE_EFFECTIVE_ENREG];
     int i,j;
@@ -99,6 +130,14 @@ bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
     }
 }
 
+
+/**
+ * @brief rechercher un enregistrement dans la table d'index a base de son cle
+ * 
+ * @param t la table d'index
+ * @param cle identifiant de l'enregistrement
+ * @return int 
+ */
 int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
     
     if(t == NULL){
@@ -122,17 +161,25 @@ int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
     }
 }
 
+
+/**
+ * @brief creer la table d'index
+ *  
+ * @param nom_fich nom du fichier
+ * @return true 
+ * @return false 
+ */
 bool creerTableIndex(char nom_fich[])
 {
     tabIndexExis = false ;
-    TŌVC *f;
+    TnOVC *f;
     if (!ouvrir(f,nom_fich,'A')) // ouvrir le fichier au mode ancien
     {
         printf("Erreur de l'ouverture de fichier");
         return false;
     }
 
-    // fichier TŌVC vide
+    // fichier TnOVC vide
     if (entete(f, ENTETE_NUMERO_DERNIER_BLOC) <= 0)
     {
         fermer(f);
@@ -143,7 +190,7 @@ bool creerTableIndex(char nom_fich[])
     tabIndex->taille = 0 ;
     Buffer *buf ;
     DataIndex data;
-    char position[TAILLE_EFFECTIVE_ENREG] ;
+    char position[TAILLE_EFFECTIVE_ENREG];
     int i = 1 ;
     int j = 0 ;
     while (i <= f->entete.numeroDernierBloc)
@@ -164,5 +211,5 @@ bool creerTableIndex(char nom_fich[])
     }
 
     tabIndexExis = true ;
-    return true ;
+    return tabIndexExis ;
 }
