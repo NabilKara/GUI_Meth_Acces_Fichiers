@@ -1,6 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "enabled",
     "files.associations": {
-        "tōvc.h": "c"
+        "tōvc.h": "c",
+        "functions.h": "c",
+        "stdio.h": "c"
     }
 }
