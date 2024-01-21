@@ -3,12 +3,8 @@
 #include<stdbool.h>
 #include<string.h>
 
-#include"index.h"
-#include"TnOVC.h"
-#include<functions.h>
-#include<utils.h>
 
-
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.h"
 /**
  * @brief rechercher un enregistrement a base d'une cle dans un fichier TnOVC
  * 
@@ -22,7 +18,7 @@
 bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     TnOVC* fichier;
     Buffer* buf;
-    if (!ouvrir(fichier,nom_fichier,"a"))
+    if (!ouvrir(fichier,nom_fichier,'a'))
     {
         return false ;
     }
@@ -31,23 +27,23 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     *j = 0;
     while (*i < entete(fichier,ENTETE_NUMERO_DERNIER_BLOC) &&  *j != entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC)) 
     {   
-        char chLong[TAILLE_EFFECTIVE_ENREG];
-        char chEff[TAILLE_CHAR_EFFACEMENT_LOGIQUE];
-        char chCle[TAILLE_CLE];
+        char *chLong[TAILLE_EFFECTIVE_ENREG];
+        char *chEff[TAILLE_CHAR_EFFACEMENT_LOGIQUE];
+        char *chCle[TAILLE_CLE];
 
-        lire_chaine(fichier,buf,i,j,TAILLE_EFFECTIVE_ENREG,&chLong);
-        lire_chaine(fichier,buf,i,j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,&chEff);
-        lire_chaine(fichier,buf,i,j,TAILLE_CLE,&chCle);
+        lire_chaine(fichier,buf,i,j,TAILLE_EFFECTIVE_ENREG,chLong);
+        lire_chaine(fichier,buf,i,j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,chEff);
+        lire_chaine(fichier,buf,i,j,TAILLE_CLE,chCle);
         
-        if((memcmp(chCle,cle,TAILLE_CLE) == 0) && (memcmp(chEff,'N',TAILLE_CHAR_EFFACEMENT_LOGIQUE) == 0)){
+        if((memcmp(chCle,cle,TAILLE_CLE) == 0) && (strcmp(chEff[0],"N"))){
             return true;
         }else{
-            *j = *j +  strToInt(chLong) - TAILLE_CLE;
+            *j = *j +  strToInt(*chLong) - TAILLE_CLE;
             if(*j > MAX_NO_CHARS){
                 // chevauchement
                 *j -= MAX_NO_CHARS;
                 (*i)++;
-                lireBloc(fichier,i,buf);
+                lireBloc(fichier,*i,buf);
             }
         }
     }
@@ -69,7 +65,7 @@ bool inserer(char e[],int taille,char nom_fichier[]){
     TnOVC* fichier;
     Buffer* buf;
     char c[TAILLE_EFFECTIVE_ENREG];
-    if (!ouvrir(fichier,buf,'a'))
+    if (!ouvrir(fichier,nom_fichier,'a'))
     {
         return false ;
     }
@@ -115,16 +111,16 @@ bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
         lireBloc(fichier,i,buf);
         lire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,ch);
         if(j <= MAX_NO_CHARS){
-            buf->tab[j] = "E";  // positioner le caractere d'effacement logique
+             buf->tab[j] = 'E';  // positioner le caractere d'effacement logique
         }else{
             //chevauchement
             i++;
             lireBloc(fichier,i,buf);
-            buf->tab[1] = "E";
+            buf->tab[1] = 'E';
         }
     ecrireBloc(fichier,i,buf);
     // mettre a jour le caractere indiquant le nombre de char logiquements supprime
-    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(ch)+ TAILLE_EFFECTIVE_ENREG
+    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(*ch)+ TAILLE_EFFECTIVE_ENREG
                                                                             + TAILLE_CHAR_EFFACEMENT_LOGIQUE);
     fermer(fichier);
     }
@@ -199,9 +195,9 @@ bool creerTableIndex(char nom_fich[])
         {
             return false;
         }
-        strncpy(data.cle,buf,TAILLE_CLE);
+        strncpy(data.cle,buf->tab,TAILLE_CLE);
         data.numBloc = i ;
-        recupererStr(buf,TAILLE_CLE+1,position) ;
+        recupererStr(buf->tab,TAILLE_CLE+1,position) ;
         data.posBloc = TAILLE_CLE + 1 + TAILLE_EFFECTIVE_ENREG + strToInt(position) ;
         if(!updateTableIndex(data,tabIndex,'A'))
         {

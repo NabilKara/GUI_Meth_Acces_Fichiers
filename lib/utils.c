@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <string.h>
-#include<utils.h>
-#include"TnOVC.h"
+
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/utils.h"
 
 /**
  * @brief Convertir une chaine de caractere a un entier

@@ -1,11 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include"TnOVC.h"
+#include"/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
 
 bool ouvrir(TnOVC* f,char nom_f[],char mode){
     if(mode == 'N' || mode == 'n'){
-        f->fichier = fopen(nom_f,"w+");    
+        f->fichier = fopen(nom_f,"wb+");    
         if(f->fichier == NULL) {
         printf("Impossible d'ouvrir le fichier");
         return false;
@@ -16,7 +16,7 @@ bool ouvrir(TnOVC* f,char nom_f[],char mode){
         fwrite(&(f->entete),sizeof(Entete),1,f->fichier);
         rewind(f->fichier);
     }else if(mode == 'A'){
-        f->fichier = fopen(nom_f,"r+");
+        f->fichier = fopen(nom_f,"rb+");
         if(f->fichier == NULL) {
             // printf("Impossible d'ouvrir le fichier");
             return false;    
@@ -99,7 +99,7 @@ int allouerBloc(TnOVC* f){
 * @return bool
 */
 bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
-    *ch = calloc(taille+1,sizeof(char));
+    ch = calloc(taille+1,sizeof(char));
     for (int k = 0; k < taille; k++)
     {
         if(*j <= MAX_NO_CHARS){
@@ -109,7 +109,7 @@ bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
             // chevauchement
             (*i)++; // passer au bloc suivant;
             if(!lireBloc(f,*i,buf)) return false;
-            (*ch)[k] = buf->tab[1];
+            (*ch[k]) = buf->tab[1];
             *j = 2;
         }
     }

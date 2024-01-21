@@ -2,12 +2,19 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include<string.h>
-#include "TnOVC.h"
+// #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/includes.h"
+ #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.c"
+// #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
+// #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.c"
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.h"
+#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.c"
 int main()
 {
     TnOVC* f = malloc(sizeof(TnOVC));
-
-    if(!ouvrir(f,"testFiles/test.txt",'n')) printf("Error opening the file");
+    Buffer* buff;
+    
+    if(!ouvrir(f,"testFiles/test.bin",'n')) printf("Error opening the file");
     Buffer *buf = malloc(sizeof(Buffer));
 
     char ch[] = "premier TEST" ;
@@ -27,6 +34,9 @@ int main()
     {
         printf("Erreur d'ecrire bloc de fichier !!!!!\n");
     }
+
+    char e[] = "@.,s,dfsslaskdro9012NABILKARA";
+    if(!inserer(e,9,"test.bin")) printf("Erreur lors de l'insertion dans le fichier\n");
     // Close the file after writing
     fermer(f);
     printf("\n le programme marche tres bien \n");
