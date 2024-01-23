@@ -2,8 +2,7 @@
 #define INDEX_H_INCLUDED
 
 #include<stdlib.h>
-
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
+#include"TnOVC.h"
 
 // declarations des constantes 
 #define MAX_INDEX 1000// taille de la table d'index
@@ -68,5 +67,8 @@ void liberer_TabIndex(TableIndex** t); // liberer l'espace occupe par la table d
 bool charger_TabIndex(char nom_fich[],TableIndex* t); // charger une table d'index a partir du fichier
 bool sauvegarder_TabIndex(char nom_fich[],TableIndex* t); // sauvegarder une table d'index dans un fichier
 bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action); //action = 'A' pour Ajouter ou 'S' pour Supprimer
+
+int rechercherIndex(char cle[20]);
+bool creerTableIndex(char nom_fich[]);
 
 #endif //INDEX_H_INCLUDED

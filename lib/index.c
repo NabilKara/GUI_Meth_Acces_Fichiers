@@ -2,8 +2,8 @@
 #include<stdio.h>
 #include<string.h>
 
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
-
+#include "index.h"
+#include "utils.h"
 
  // fonctions du modele
 
@@ -277,4 +277,87 @@ bool updateTableIndex(DataIndex dataInd, TableIndex* t, char action)
         {
             return false; //action != 'A' et action != 'S'
         }   
+}
+
+/**
+ * @brief rechercher un enregistrement dans la table d'index a base de son cle
+ * 
+ * @param t la table d'index
+ * @param cle identifiant de l'enregistrement
+ * @return int 
+ */
+int rechercherIndex(char cle[TAILLE_CLE]){
+    
+    if(tabIndex == NULL){
+        return -1;
+    }else{
+        int bi = 0, bs = tabIndex->taille;
+        bool trouv = false;
+        int mid ;
+        while(bi <= bs && !trouv){
+            mid = (bi+bs)/2;
+            int cmp = strcmp(tabIndex->tab[mid].cle,cle);
+            if(!cmp) {
+                trouv = true;
+            }else if(cmp < 0){ // cle > cle de la table d'index
+                bi = mid+1;
+            }else{
+                bs = mid-1;
+            }
+        }
+        return mid;
+    }
+}
+
+
+/**
+ * @brief creer la table d'index
+ *  
+ * @param nom_fich nom du fichier
+ * @return true 
+ * @return false 
+ */
+bool creerTableIndex(char nom_fich[])
+{
+    tabIndexExis = false ;
+    TnOVC *f;
+    if (!ouvrir(f,nom_fich,'A')) // ouvrir le fichier au mode ancien
+    {
+        printf("Erreur de l'ouverture de fichier");
+        return false;
+    }
+
+    // fichier TnOVC vide
+    if (entete(ENTETE_NUMERO_DERNIER_BLOC,nom_fich) <= 0)
+    {
+        fermer(f);
+        return false;
+    }
+
+    tabIndex = alloc_TabIndex();
+    tabIndex->taille = 0 ;
+    Buffer *buf ;
+    DataIndex data;
+    char position[TAILLE_EFFECTIVE_ENREG];
+    int i = 1 ;
+    int j = 0 ;
+    while (i <= entete(ENTETE_NUMERO_DERNIER_BLOC,nom_fich))
+    {
+        if(!lireBloc(nom_fich,i,buf))
+        {
+            return false;
+        }
+        strncpy(data.cle,buf->tab,TAILLE_CLE);
+        data.numBloc = i ;
+        recupererStr(buf->tab,TAILLE_CLE+1,position) ;
+        data.posBloc = TAILLE_CLE + 1 + TAILLE_EFFECTIVE_ENREG + strToInt(position) ;
+        if(!updateTableIndex(data,tabIndex,'A'))
+        {
+            return false;
+        }
+        i++ ;
+    }
+
+    tabIndexExis = true ;
+    return tabIndexExis ;
 }

@@ -3,6 +3,7 @@
     "files.associations": {
         "tōvc.h": "c",
         "functions.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "utils.h": "c"
     }
 }
