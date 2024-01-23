@@ -233,7 +233,7 @@ SDL_DestroyWindow(window);
         SDL_Delay(300);
 renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
-   image1 = SDL_LoadBMP("./assets/purplefluidmainwithbufferexemple.bmp");
+   image1 = SDL_LoadBMP("./assets/purplefluidmainwithbufferexempleandselectionbar.bmp");
     SDL_Texture*  mainText =SDL_CreateTextureFromSurface(renderer, image1);
     SDL_FreeSurface(image1);
 
