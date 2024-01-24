@@ -3,7 +3,7 @@
 
 #include<stdlib.h>
 
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
+#include "TnOVC.h"
 
 // declarations des constantes 
 #define MAX_INDEX 1000// taille de la table d'index

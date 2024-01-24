@@ -1,4 +1,4 @@
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/GUI.h"
+#include "GUI.h"
 bool recupererEnreg(char nom_fichier[],char ch[],int *numBlc,int *depl){
     TnOVC f;
     Buffer buf;
