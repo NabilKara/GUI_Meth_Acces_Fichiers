@@ -46,7 +46,7 @@ bool ecrireBloc(TnOVC* f,int i,Buffer* buf);
 int entete(TnOVC* f,int i);
 bool affecterEntete(TnOVC* f,int i,int val);
 int allouerBloc(TnOVC* f);
-
+int entete2(int INDEX,char nom_fichier[]);
 //*****fonctions necessaires aux traitements****
 bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
 bool ecrire_chaine(TnOVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier

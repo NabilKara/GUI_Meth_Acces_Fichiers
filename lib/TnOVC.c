@@ -15,13 +15,16 @@ bool ouvrir(TnOVC* f,char nom_f[],char mode){
         affecterEntete(f,ENTETE_NOMBRE_CHAR_SUP,0); // initialement aucun caratere n'est supprime
         fwrite(&(f->entete),sizeof(Entete),1,f->fichier);
         rewind(f->fichier);
-    }else if(mode == 'A'){
+    }else if(mode == 'A' || mode == 'a'){
         f->fichier = fopen(nom_f,"rb+");
+        rewind(f->fichier);
         if(f->fichier == NULL) {
             // printf("Impossible d'ouvrir le fichier");
             return false;    
         }
-        fread(&(f->entete),sizeof(f->entete),1,f->fichier);
+        if(fread(&(f->entete),sizeof(Entete),1,f->fichier) != 1) return false;
+        printf("numero dernier bloc %d\n", entete(f,ENTETE_NUMERO_DERNIER_BLOC));
+        printf("position libre dernier bloc %d\n", entete(f,ENTETE_POSLIBRE_DERNIER_BLOC));
         rewind(f->fichier);
     }
     return true;
@@ -29,7 +32,7 @@ bool ouvrir(TnOVC* f,char nom_f[],char mode){
 
 bool fermer(TnOVC* f){
     rewind(f->fichier);
-    if(fwrite(&(f->entete),sizeof(f->entete),1,f->fichier) != sizeof(f->entete)) return false;
+    if(fwrite(&(f->entete),sizeof(Entete),1,f->fichier) != 1) return false;
     fclose(f->fichier);
     return true;
 }
@@ -39,11 +42,13 @@ bool lireBloc(TnOVC* f,int i,Buffer *buf){
     if(!fread(buf,sizeof(Buffer),1,f->fichier)) return false; 
     return true;
 }
+
 bool ecrireBloc(TnOVC* f,int i,Buffer* buf){
     fseek(f->fichier,sizeof(Bloc)*(i-1) + sizeof(Entete),SEEK_SET);
     if(!fwrite(buf,sizeof(Buffer),1,f->fichier)) return false;
     return true;
 }
+
 int entete(TnOVC* f,int i){
     switch (i)
     {
@@ -99,7 +104,8 @@ int allouerBloc(TnOVC* f){
 * @return bool
 */
 bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
-    ch = calloc(taille+1,sizeof(char));
+    *ch = calloc(taille+1,sizeof(char));
+    
     for (int k = 0; k < taille; k++)
     {
         if(*j <= MAX_NO_CHARS){
@@ -109,8 +115,8 @@ bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]){
             // chevauchement
             (*i)++; // passer au bloc suivant;
             if(!lireBloc(f,*i,buf)) return false;
-            (*ch[k]) = buf->tab[1];
-            *j = 2;
+            (*ch[k]) = buf->tab[0];
+            *j = 1;
         }
     }
     return true;
@@ -137,8 +143,8 @@ bool ecrire_chaine(TnOVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]){
             // chevauchement
             (*i)++;
             if(!lireBloc(f,*i,buf)) return false;
-            buf->tab[1] = ch[k];
-            *j = 2;
+            buf->tab[0] = ch[k];
+            *j = 1;
         }
     }
     return true;

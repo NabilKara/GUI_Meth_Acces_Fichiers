@@ -3,6 +3,7 @@
         "index.h": "c",
         "tnovc.h": "c",
         "utils.h": "c",
-        "utils.c": "cpp"
+        "utils.c": "cpp",
+        "string.h": "c"
     }
 }

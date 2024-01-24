@@ -16,26 +16,40 @@
  * @return false 
  */
 bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
-    TnOVC* fichier;
-    Buffer* buf;
-    if (!ouvrir(fichier,nom_fichier,'a'))
+    
+    TnOVC fichier;
+    Buffer buf;
+
+    if (!ouvrir(&fichier,nom_fichier,'a'))
     {
         return false ;
     }
-    
-    *i = 0;
+
+    int N = entete(&fichier, ENTETE_NUMERO_DERNIER_BLOC);
+    int M = entete(&fichier,ENTETE_POSLIBRE_DERNIER_BLOC);
+
+    if ( N <= 0) //le cas où le fichier est vide
+    {
+        fermer(&fichier);
+        return false;
+    }
+
+    *i = 1;
     *j = 0;
-    while (*i < entete(fichier,ENTETE_NUMERO_DERNIER_BLOC) &&  *j != entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC)) 
+    
+    lireBloc(&fichier,*i,&buf);
+
+    while (*i < N ||  *j != M) 
     {   
         char *chLong[TAILLE_EFFECTIVE_ENREG];
         char *chEff[TAILLE_CHAR_EFFACEMENT_LOGIQUE];
         char *chCle[TAILLE_CLE];
 
-        lire_chaine(fichier,buf,i,j,TAILLE_EFFECTIVE_ENREG,chLong);
-        lire_chaine(fichier,buf,i,j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,chEff);
-        lire_chaine(fichier,buf,i,j,TAILLE_CLE,chCle);
-        
-        if((memcmp(chCle,cle,TAILLE_CLE) == 0) && (strcmp(chEff[0],"N"))){
+        lire_chaine(&fichier,&buf,i,j,TAILLE_EFFECTIVE_ENREG,chLong);
+        lire_chaine(&fichier,&buf,i,j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,chEff);
+        lire_chaine(&fichier,&buf,i,j,TAILLE_CLE,chCle);
+                
+        if((strcmp(chCle[0],cle) == 0) && (strcmp(chEff[0],"N") == 0)){
             return true;
         }else{
             *j = *j +  strToInt(*chLong) - TAILLE_CLE;
@@ -43,11 +57,11 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
                 // chevauchement
                 *j -= MAX_NO_CHARS;
                 (*i)++;
-                lireBloc(fichier,*i,buf);
+                lireBloc(&fichier,*i,&buf);
             }
         }
     }
-    fermer(fichier);
+    fermer(&fichier);
     
     return false;
 }
@@ -61,35 +75,33 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
  * @return true 
  * @return false 
  */
-bool inserer(char e[],int taille,char nom_fichier[]){
-    TnOVC* fichier;
-    Buffer* buf;
-    char c[TAILLE_EFFECTIVE_ENREG];
-    if (!ouvrir(fichier,nom_fichier,'a'))
-    {
-        return false ;
-    }
-    int i = entete(fichier,ENTETE_NUMERO_DERNIER_BLOC);
-    int j = entete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC);
-    intToStr(taille,c); 
-    i = 1;
-    j = 12;
-    ecrire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,c);
-    ecrire_chaine(fichier,buf,&i,&j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,"N");
-    ecrire_chaine(fichier,buf,&i,&j,taille,e);
+bool inserer(char e[], int taille, char nom_fichier[]){
+    Buffer buf;
+    TnOVC f;
+    int i,j;
+    if(!ouvrir(&f,nom_fichier,'a')) return false;
+    i = entete(&f,ENTETE_NUMERO_DERNIER_BLOC); // numero du dernier bloc
     
-    ecrireBloc(fichier,i,buf);
-    if(i != entete(fichier,ENTETE_NUMERO_DERNIER_BLOC)){
-        affecterEntete(fichier,ENTETE_NUMERO_DERNIER_BLOC,i);
-        // mettre a jour le numero du dernier bloc
+    if(i == 0){
+        return false;
     }
 
-    affecterEntete(fichier,ENTETE_POSLIBRE_DERNIER_BLOC,j);
-    // mettre a jour la premiere position libre dans le dernier bloc
+    j = entete(&f,ENTETE_POSLIBRE_DERNIER_BLOC); // position libre dernier bloc
+    
+    char ch[3];
+    intToStr(taille,ch,3);
+    
+    ecrire_chaine(&f,&buf,&i,&j,TAILLE_EFFECTIVE_ENREG,ch);
+    ecrire_chaine(&f,&buf,&i,&j,1,"N");
+    ecrire_chaine(&f,&buf,&i,&j,taille+TAILLE_CLE,e);
 
-    fermer(fichier);
+    ecrireBloc(&f,i,&buf);
+
+    if(i != entete(&f,1)) affecterEntete(&f,ENTETE_NUMERO_DERNIER_BLOC,i);
+    affecterEntete(&f,ENTETE_POSLIBRE_DERNIER_BLOC,j);
+    fermer(&f);
+    return true;
 }
-
 
 /**
  * @brief supprimer un enregistrement d'un fichier TnOVC a base de son cle
@@ -100,30 +112,31 @@ bool inserer(char e[],int taille,char nom_fichier[]){
  * @return false 
  */
 bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
-    TnOVC* fichier;
-    Buffer* buf;
+    TnOVC fichier;
+    Buffer buf;
     char *ch[TAILLE_EFFECTIVE_ENREG];
     int i,j;
     if(rechercher(nom_fichier,cle,&i,&j)){
-        if (!ouvrir(fichier,nom_fichier,'a'))
+        if (!ouvrir(&fichier,nom_fichier,'a'))
         {
             return false ;
         }
-        lireBloc(fichier,i,buf);
-        lire_chaine(fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,ch);
+        lireBloc(&fichier,i,&buf);
+        j -= TAILLE_EFFECTIVE_ENREG +TAILLE_CLE + 1;
+        lire_chaine(&fichier,&buf,&i,&j,TAILLE_EFFECTIVE_ENREG,ch);
         if(j <= MAX_NO_CHARS){
-             buf->tab[j] = 'E';  // positioner le caractere d'effacement logique
+             buf.tab[j] = 'E';  // positioner le caractere d'effacement logique
         }else{
             //chevauchement
             i++;
-            lireBloc(fichier,i,buf);
-            buf->tab[1] = 'E';
+            lireBloc(&fichier,i,&buf);
+            buf.tab[1] = 'E';
         }
-    ecrireBloc(fichier,i,buf);
+    ecrireBloc(&fichier,i,&buf);
     // mettre a jour le caractere indiquant le nombre de char logiquements supprime
-    affecterEntete(fichier,entete(fichier,ENTETE_NOMBRE_CHAR_SUP),entete(fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(*ch)+ TAILLE_EFFECTIVE_ENREG
+    affecterEntete(&fichier,ENTETE_NOMBRE_CHAR_SUP,entete(&fichier,ENTETE_NOMBRE_CHAR_SUP)+ strToInt(*ch)+ TAILLE_EFFECTIVE_ENREG
                                                                             + TAILLE_CHAR_EFFACEMENT_LOGIQUE);
-    fermer(fichier);
+    fermer(&fichier);
     }
 }
 
@@ -136,7 +149,6 @@ bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
  * @return int 
  */
 int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
-    
     if(t == NULL){
         return -1;
     }else{

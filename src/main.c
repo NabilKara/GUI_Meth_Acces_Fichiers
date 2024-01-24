@@ -5,23 +5,17 @@
 // #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/includes.h"
 #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
 #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.c"
-// #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
-// #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.c"
 #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.h"
 #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.c"
 int main()
 {
     TnOVC* f = malloc(sizeof(TnOVC));
-    Buffer* buff;
-    
-    if(!ouvrir(f,"testFiles/test.bin",'n')) printf("Error opening the file");
+    char nom_fichier[] = "testFiles/testing.bin";
+    if(!ouvrir(f,nom_fichier,'n')) printf("Error opening the file\n");
     Buffer *buf = malloc(sizeof(Buffer));
-    printf("%d", f->entete.numeroDernierBloc);
-    printf("%d", f->entete.positionLibreDernierBloc);
     char ch[] = "premier TEST" ;
 
     int i = allouerBloc(f), j = 0;
-
     if (i == -1)
         printf("i = -1");
 
@@ -35,13 +29,56 @@ int main()
     {
         printf("Erreur d'ecrire bloc de fichier !!!!!\n");
     }
-    printf("%d", f->entete.numeroDernierBloc);
-    printf("%d", f->entete.positionLibreDernierBloc);
-
-    char e[] = "@.,s,dfsslaskdro9012NABILKARA";
-    if(!inserer(e,9,"test.bin")) printf("Erreur lors de l'insertion dans le fichier\n");
-    // Close the file after writing
     fermer(f);
-    printf("\n le programme marche tres bien \n");
+    
+    char e1[] = "CleNum1DuEnregOuiCcaNABILKARA";
+    char e2[] = "askfjasfsalnfksanfasSIFITAREK";
+    if(!inserer(e1,9,nom_fichier)) printf("Erreur lors de l'insertion de e1 dans le fichier\n");
+    if(!inserer(e2,9,nom_fichier)) printf("Erreur lors de l'insertion de e1 dans le fichier\n");
+    char cle1[21] = "CleNum1DuEnregOuiCca";
+    
+    if(!suppression_logique(cle1,nom_fichier)) printf("Erreur suppression\n");
+    // Close the file after writing
+    // if(!fermer(f)){
+    //         printf("Erreur lors de la fermeture du fichier TnOVC\n");
+    // } 
+    // printf("\n le programme marche tres bien \n");
+    
+    // TOF *file;
+    // file = malloc(sizeof(TOF));
+    // ouvrir_TOF(file,"testFiles/fichierTOF.bin",'N');
+    // Buffer_TOF *buf_TOF;
+    // buf_TOF = malloc(sizeof(Buffer_TOF));
+    // int k = allouerBloc_TOF(file);
+    // if(k == -1){
+    //     printf("k = -1\n");
+    // }
+    // char cle[] = "147321538";
+    // buf_TOF->nbIndex = 1;
+    // int numBloc = 1;
+    // int posBloc = 1;
+    // DataIndex dataIdx;
+    // dataIdx.numBloc = numBloc;
+    // dataIdx.posBloc = posBloc;
+    // memcpy(dataIdx.cle,cle,20);
+    // buf_TOF->tab[0] = dataIdx;
+    // if(!ecrireBloc_TOF(file,k,buf_TOF)) printf("Erreur lors de l'ecriture dans le fichier TOF\n");
+
+    // // creer une table d'index
+    // TableIndex* tableIdx = alloc_TabIndex();
+    // tableIdx->tab[0] = dataIdx;
+    // tableIdx->taille++;
+    
+    // // sauvegarder la table d'index dans un fichier
+    // if(!sauvegarder_TabIndex("testFiles/fichierTOF.bin",tableIdx)) {
+    //     printf("Erreur lors du sauvegarde de la table d'index\n");
+    //     exit(1);
+    // }
+
+
+    // if(!fermer_TOF(file)) printf("Erreur lors de la fermeture du fichier\n");
+
+
+    printf("Test fini avec succes\n");
     return 0;
 }
