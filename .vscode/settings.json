@@ -4,6 +4,7 @@
         "tnovc.h": "c",
         "utils.h": "c",
         "utils.c": "cpp",
-        "string.h": "c"
+        "string.h": "c",
+        "gui.h": "c"
     }
 }
