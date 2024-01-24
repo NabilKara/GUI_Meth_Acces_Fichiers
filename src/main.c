@@ -9,42 +9,42 @@
 #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.c"
 int main()
 {
-    TnOVC* f = malloc(sizeof(TnOVC));
-    char nom_fichier[] = "testFiles/testing.bin";
-    if(!ouvrir(f,nom_fichier,'n')) printf("Error opening the file\n");
-    Buffer *buf = malloc(sizeof(Buffer));
-    char ch[] = "premier TEST" ;
+    // TnOVC* f = malloc(sizeof(TnOVC));
+    // char nom_fichier[] = "testFiles/testing.bin";
+    // if(!ouvrir(f,nom_fichier,'n')) printf("Error opening the file\n");
+    // Buffer *buf = malloc(sizeof(Buffer));
+    // char ch[] = "premier TEST" ;
 
-    int i = allouerBloc(f), j = 0;
-    if (i == -1)
-        printf("i = -1");
+    // int i = allouerBloc(f), j = 0;
+    // if (i == -1)
+    //     printf("i = -1");
 
-    if (!ecrire_chaine(f, buf, &i, &j, strlen(ch), ch))
-    {
-        printf("Erreur d'ecriture de chaine dans le fichier !!!!!\n");
-        exit(1);
-    }
+    // if (!ecrire_chaine(f, buf, &i, &j, strlen(ch), ch))
+    // {
+    //     printf("Erreur d'ecriture de chaine dans le fichier !!!!!\n");
+    //     exit(1);
+    // }
 
-    if (!ecrireBloc(f, i, buf))
-    {
-        printf("Erreur d'ecrire bloc de fichier !!!!!\n");
-    }
-    fermer(f);
+    // if (!ecrireBloc(f, i, buf))
+    // {
+    //     printf("Erreur d'ecrire bloc de fichier !!!!!\n");
+    // }
+    // fermer(f);
     
-    char e1[] = "CleNum1DuEnregOuiCcaNABILKARA";
-    char e2[] = "askfjasfsalnfksanfasSIFITAREK";
-    if(!inserer(e1,9,nom_fichier)) printf("Erreur lors de l'insertion de e1 dans le fichier\n");
-    if(!inserer(e2,9,nom_fichier)) printf("Erreur lors de l'insertion de e1 dans le fichier\n");
-    char cle1[21] = "CleNum1DuEnregOuiCca";
+    // char e1[] = "CleNum1DuEnregOuiCcaNABILKARA";
+    // char e2[] = "askfjasfsalnfksanfasSIFITAREK";
+    // if(!inserer(e1,9,nom_fichier)) printf("Erreur lors de l'insertion de e1 dans le fichier\n");
+    // if(!inserer(e2,9,nom_fichier)) printf("Erreur lors de l'insertion de e1 dans le fichier\n");
+    // char cle1[21] = "CleNum1DuEnregOuiCca";
     
-    if(!suppression_logique(cle1,nom_fichier)) printf("Erreur suppression\n");
+    // if(!suppression_logique(cle1,nom_fichier)) printf("Erreur suppression\n");
 
      
     // printf("\n le programme marche tres bien \n");
-    
+    char nomfichier[] = "testFiles/fichierTOF.bin";
     TOF *file;
     file = malloc(sizeof(TOF));
-    ouvrir_TOF(file,"testFiles/fichierTOF.bin",'N');
+    ouvrir_TOF(file,nomfichier,'N');
     Buffer_TOF *buf_TOF;
     buf_TOF = malloc(sizeof(Buffer_TOF));
     int k = allouerBloc_TOF(file);
@@ -58,7 +58,7 @@ int main()
     DataIndex dataIdx;
     dataIdx.numBloc = numBloc;
     dataIdx.posBloc = posBloc;
-    memcpy(dataIdx.cle,cle,20);
+    strcpy(dataIdx.cle,cle);
     buf_TOF->tab[0] = dataIdx;
     if(!ecrireBloc_TOF(file,k,buf_TOF)) printf("Erreur lors de l'ecriture dans le fichier TOF\n");
 
@@ -72,10 +72,15 @@ int main()
         printf("Erreur lors du sauvegarde de la table d'index\n");
         exit(1);
     }
+    liberer_TabIndex(&tableIdx);
+    tableIdx = alloc_TabIndex();
+    
 
-
-    // if(!fermer_TOF(file)) printf("Erreur lors de la fermeture du fichier\n");
-
+    if(!charger_TabIndex(nomfichier,tableIdx)) printf("Erreur de chargement de la table d'index\n");
+    
+    printf("cle : %s\n",tableIdx->tab[0].cle);
+    printf("numBloc: %d\n",tableIdx->tab[0].numBloc);
+    printf("posBlocL %d\n",tableIdx->tab[0].posBloc);
 
     printf("Test fini avec succes\n");
     return 0;

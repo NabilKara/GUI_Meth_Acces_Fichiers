@@ -117,17 +117,17 @@ void liberer_TabIndex(TableIndex** t){
  */
 bool charger_TabIndex(char nom_fich[], TableIndex* t) {
     TOF f;
-    Buffer_TOF* buf;
+    Buffer_TOF buf;
     t->taille = 0;
     if(!ouvrir_TOF(&f,nom_fich,'A')) return false; 
 
-    for (int i = 0; i < entete_TOF(&f,ENTETE_NUMERO_DERNIER_BLOC_TOF); i++)
+    for (int i = 1; i <= entete_TOF(&f,ENTETE_NUMERO_DERNIER_BLOC_TOF); i++)
     {
-        lireBloc_TOF(&f,i,buf);
+        lireBloc_TOF(&f,i,&buf);
     
-        for (int j = 0; j < buf->nbIndex; j++)
+        for (int j = 0; j < buf.nbIndex; j++)
         {
-            t->tab[t->taille] = buf->tab[j];
+            t->tab[t->taille] = buf.tab[j];
             t->taille++;        
         }
         
@@ -148,40 +148,40 @@ bool charger_TabIndex(char nom_fich[], TableIndex* t) {
  */
 bool sauvegarder_TabIndex(char nom_fich[], TableIndex* t) {
     
-    TOF *f = malloc(sizeof(TOF));
-    if(!ouvrir_TOF(f,nom_fich,'N')) return false;
-    Buffer_TOF * buf;
-    int numBloc = 0;
+    TOF f;
+    Buffer_TOF buf;
+    int numBloc = 1;
     int j = 0;
-    if (f->fichier== NULL) {
-        return false;
-    }
-    if(t == NULL) return false;
-
-    rewind(f->fichier);
+    if(!ouvrir_TOF(&f,nom_fich,'N')) return false;
+    
+    // if (f.fichier== NULL) {
+    //     return false;
+    // }
+    // if(t == NULL) return false;
+    
+    // rewind(f.fichier);
     
     // ecrire les enregistrements de la table d'index dans le fichier 1 par 1
     for (int i = 0; i < t->taille; i++)
     {
         if(j < MAX_INDEX_TOF){
-            buf->tab[j] = t->tab[i];
+            buf.tab[j] = t->tab[i];
             j++;
         }else{
-            buf->nbIndex = MAX_INDEX_TOF; // bloc rempli 
-            ecrireBloc_TOF(f,numBloc,buf); // ecrire le bloc dans le fichier
+            buf.nbIndex = MAX_INDEX_TOF; // bloc rempli 
+            ecrireBloc_TOF(&f,numBloc,&buf); // ecrire le bloc dans le fichier
             numBloc++;
-            buf->tab[0] = t->tab[i]; 
+            buf.tab[0] = t->tab[i]; 
             j = 1;
         }
-        
     }
     
-    buf->nbIndex = j;
-    ecrireBloc_TOF(f,numBloc,buf);
+    buf.nbIndex = j;
+    ecrireBloc_TOF(&f,numBloc,&buf);
 
-    affecterEntete_TOF(f,ENTETE_NUMERO_DERNIER_BLOC,numBloc);
-    affecterEntete_TOF(f,ENTETE_NOMBRE_ENREGISTREMENTS,t->taille); 
-    fermer_TOF(f);
+    affecterEntete_TOF(&f,ENTETE_NUMERO_DERNIER_BLOC_TOF,numBloc);
+    affecterEntete_TOF(&f,ENTETE_NOMBRE_ENREGISTREMENTS_TOF,t->taille); 
+    fermer_TOF(&f);
     return true;
 }
 
