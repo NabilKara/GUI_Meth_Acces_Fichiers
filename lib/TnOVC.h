@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 /*---Constantes---*/
-#define MAX_NO_CHARS 999 //le nombre maximal des caracteres dans un bloc
+#define MAX_NO_CHARS 99 //le nombre maximal des caracteres dans un bloc
 
 // Numero des entetes
 #define ENTETE_NUMERO_DERNIER_BLOC 1
@@ -19,18 +19,21 @@
 // n le reste
 
 /*--Structures--*/
-typedef struct 
+
+typedef struct
 {
     char tab[MAX_NO_CHARS + 1];
+    int nb;
 }Bloc, Buffer;
-typedef struct 
+
+typedef struct
 {
     int numeroDernierBloc;
     int positionLibreDernierBloc;
     int nbCharSupp;
     int nbEnreg;
 }Entete;
-typedef struct 
+typedef struct
 {
     Entete entete;
     FILE* fichier;
@@ -41,13 +44,17 @@ typedef struct
 //*****fonctions propres au modele****
 bool ouvrir(TnOVC* f,char nom_f[],char mode);
 bool fermer(TnOVC* f);
-bool lireBloc(TnOVC* f,int i,Buffer *buf);
-bool ecrireBloc(TnOVC* f,int i,Buffer* buf);
+bool lireBloc(char nom_fichier[],int i,Buffer *buf);
+bool ecrireBloc(char nom_f[],int i, Buffer* buf);
 int entete(TnOVC* f,int i);
 bool affecterEntete(TnOVC* f,int i,int val);
 int allouerBloc(TnOVC* f);
 int entete2(int INDEX,char nom_fichier[]);
+//==========new
+Entete readHeader();
+void setHeader(int INDEX, int val);
+int getHeader(int INDEX);
 //*****fonctions necessaires aux traitements****
-bool lire_chaine(TnOVC* f,Buffer* buf,int* i,int* j,int taille,char *ch[]); // lire une chaine de caracteres a partir du fichier
-bool ecrire_chaine(TnOVC* f,Buffer* buf,int* i,int *j,int taille,char ch[]);// ecrire une chaine de caracteres au fichier
+bool lire_chaine(char nom_fichier[],Buffer* buf,int* i,int* j,int taille,char ch[]); // lire une chaine de caracteres a partir du fichier
+bool ecrire_chaine(char nom_fichier[],Buffer* buf,int* i,int *j,int taille,char *ch);// ecrire une chaine de caracteres au fichier
 #endif // TnOVC_H_INCLUDED

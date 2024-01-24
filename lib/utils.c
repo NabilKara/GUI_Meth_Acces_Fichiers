@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <string.h>
 
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/utils.h"
+#include "utils.h"
 
 /**
  * @brief Convertir une chaine de caractere a un entier
@@ -80,4 +80,14 @@ void recupererStr(char source[MAX_NO_CHARS] , int debut , char dest[TAILLE_EFFEC
         j++ ;
     }
     
+}
+
+void clearString(char *str, size_t size) {
+    if (str == NULL || size == 0) {
+        // Handle invalid input
+        return;
+    }
+
+    // Fill the string with null characters
+    memset(str, '\0', size);
 }
