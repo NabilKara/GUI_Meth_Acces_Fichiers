@@ -157,8 +157,6 @@ int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE],bool *trouv){
         int mid ;
         while(bi <= bs && !(*trouv)){
             mid = (bi+bs)/2;
-            printf("t->tab[mid].cle : %s\n", t->tab[mid].cle);
-            printf("cle: %s\n",cle);
             int cmp = strcmp(t->tab[mid].cle,cle);
             printf("%d\n",cmp);
             if(!cmp) {
