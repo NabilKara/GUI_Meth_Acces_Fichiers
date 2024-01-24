@@ -51,7 +51,7 @@ int main()
     if(k == -1){
         printf("k = -1\n");
     }
-    char cle[] = "147321538";
+    char cle[] = "12345678901147321538";
     buf_TOF->nbIndex = 1;
     int numBloc = 1;
     int posBloc = 1;
@@ -81,7 +81,10 @@ int main()
     printf("cle : %s\n",tableIdx->tab[0].cle);
     printf("numBloc: %d\n",tableIdx->tab[0].numBloc);
     printf("posBlocL %d\n",tableIdx->tab[0].posBloc);
-
+    bool trouv;
+    int pos = rechercherIndex(tableIdx,cle,&trouv);
+    if(trouv == false) printf("cle non trouve\n");
+    else printf("Cle trouve position: %d\n",pos);
     printf("Test fini avec succes\n");
     return 0;
 }

@@ -148,18 +148,21 @@ bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
  * @param cle identifiant de l'enregistrement
  * @return int 
  */
-int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE]){
+int rechercherIndex(TableIndex* t,char cle[TAILLE_CLE],bool *trouv){
     if(t == NULL){
         return -1;
     }else{
         int bi = 0, bs = t->taille;
-        bool trouv = false;
+        *trouv = false; 
         int mid ;
-        while(bi <= bs && !trouv){
+        while(bi <= bs && !(*trouv)){
             mid = (bi+bs)/2;
+            printf("t->tab[mid].cle : %s\n", t->tab[mid].cle);
+            printf("cle: %s\n",cle);
             int cmp = strcmp(t->tab[mid].cle,cle);
+            printf("%d\n",cmp);
             if(!cmp) {
-                trouv = true;
+                *trouv = true;
             }else if(cmp < 0){ // cle > cle de la table d'index
                 bi = mid+1;
             }else{
