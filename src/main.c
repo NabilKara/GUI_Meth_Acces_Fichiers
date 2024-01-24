@@ -40,9 +40,11 @@ if(TTF_Init() == -1){
 }
 
 int main(int argc,char* argv[]){
+
   SDL_Window* window=NULL;
 InitSDL();
 int H=700,W=1070;
+
  window = SDL_CreateWindow("VISUAL TOVC",
                                                                      0,
                                                                      0,
@@ -50,39 +52,43 @@ int H=700,W=1070;
                                                                      H,
                                                                      SDL_WINDOW_SHOWN );
 
+    
+    
     SDL_Renderer* renderer = NULL;
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
 
- SDL_Surface* screen;
-
-    screen=SDL_GetWindowSurface(window);
+    MainMenu:
+    SDL_Surface* screen;
+    screen = SDL_GetWindowSurface(window);
     SDL_Surface* image;
     image = SDL_LoadBMP("./assets/purplefluid.bmp");
-    SDL_Texture* mymenu=SDL_CreateTextureFromSurface(renderer, image); 
+    SDL_Texture* mymenu = SDL_CreateTextureFromSurface(renderer, image); 
     SDL_FreeSurface(image);
       SDL_Surface* image1;
     image = SDL_LoadBMP("./assets/purplefluid.bmp");
-    SDL_Texture* mymeminput=SDL_CreateTextureFromSurface(renderer, image); 
+    SDL_Texture* mymeminput = SDL_CreateTextureFromSurface(renderer, image); 
     SDL_FreeSurface(image);
  
 InitTFF();
- SDL_Color  black={0,0,0};
+
+SDL_Color  black={0,0,0};
 SDL_Color red={250,0,0};
 SDL_Color green={0,255,0};
-//PURPLE{90,14,200};
+SDL_Color purple = {90,14,200};
 
-    TTF_Font* bigFont= TTF_OpenFont("./assets/FrontPageNeue.otf",32);
+    TTF_Font* bigFont= TTF_OpenFont("assets/Front Page Neue.otf",32);
    
     if(bigFont == NULL){
     printf("could not load the font");
             exit(1);
     }
+
       SDL_Surface* titleSurf = TTF_RenderText_Solid(bigFont,"VISUAL T/OVC",black);
       SDL_Texture* titleText = SDL_CreateTextureFromSurface(renderer,titleSurf);
-    SDL_FreeSurface(titleSurf); 
+      SDL_FreeSurface(titleSurf); 
 
 
-    TTF_Font* smallFont= TTF_OpenFont("./assets/FrontPageNeue.otf",32);
+    TTF_Font* smallFont= TTF_OpenFont("./assets/Front Page Neue.otf",32);
     
     if(smallFont == NULL){
     printf("could not load the font\n");
@@ -91,6 +97,7 @@ SDL_Color green={0,255,0};
   
   SDL_Surface* playSurf = TTF_RenderText_Solid(smallFont,"play",black);
   SDL_Texture* playTextb = SDL_CreateTextureFromSurface(renderer,playSurf);
+
 SDL_FreeSurface(playSurf); 
  SDL_Surface* playSurfg = TTF_RenderText_Solid(smallFont,"play",green);
   SDL_Texture* playTextg = SDL_CreateTextureFromSurface(renderer,playSurf);
@@ -98,11 +105,16 @@ SDL_FreeSurface(playSurfg);
 
     SDL_Surface* aboutSurf = TTF_RenderText_Solid(smallFont,"about",black);
   SDL_Texture* aboutText = SDL_CreateTextureFromSurface(renderer,aboutSurf);
-SDL_FreeSurface(aboutSurf); 
+SDL_FreeSurface(aboutSurf);
+
+    SDL_Surface* aboutSurfp = TTF_RenderText_Solid(smallFont,"about",purple);
+  SDL_Texture* aboutTextp = SDL_CreateTextureFromSurface(renderer,aboutSurfp);
+SDL_FreeSurface(aboutSurfp);
 
 SDL_Surface* exitSurf = TTF_RenderText_Solid(smallFont,"exit",black);
   SDL_Texture* exitText = SDL_CreateTextureFromSurface(renderer,exitSurf);
 SDL_FreeSurface(exitSurf);
+
 SDL_Surface* exitSurfr = TTF_RenderText_Solid(smallFont,"exit",red);
   SDL_Texture* exitTextr = SDL_CreateTextureFromSurface(renderer,exitSurf);
 SDL_FreeSurface(exitSurfr);
@@ -135,28 +147,30 @@ SDL_Rect exitRec;
     exitRec.h = 50;
 
 
-bool inMenu =true;
-bool inPlay =false;
+bool inMenu = true;
+bool inPlay = false;
+bool inAbout = false;
 
 int mouseX,mouseY;
     Uint32 buttons;
 while (inMenu) {
     buttons =SDL_GetMouseState(&mouseX, &mouseY);
 
-          SDL_RenderClear(renderer);
+       SDL_RenderClear(renderer);
        SDL_RenderCopy(renderer,mymenu,NULL,NULL);
 
 
     SDL_Event event;
       
         while (SDL_PollEvent(&event)){
+
                 switch (event.type) {
                     case  SDL_QUIT :
-                      inMenu=false;
+                      inMenu = false;
           
                  case SDL_MOUSEMOTION:  
-                    mouseX=event.motion.x;
-                    mouseY=event.motion.y;
+                    mouseX = event.motion.x;
+                    mouseY = event.motion.y;
                 }
                 
                switch (event.button.button) {
@@ -172,27 +186,36 @@ while (inMenu) {
                     else if (mouseX >= exitRec.x && mouseX <= exitRec.x + exitRec.w && mouseY >= exitRec.y && mouseY <= exitRec.y + exitRec.h  ){
                     printf("exit\n");
                      inMenu=false;
-
+                   }else if(mouseX >= aboutRec.x && mouseX <= aboutRec.x + aboutRec.w && mouseY >= aboutRec.y && mouseY <= aboutRec.y + aboutRec.h){
+                     printf("about\n");
+                     inAbout = true;
+                     inMenu = false;
+                     SDL_Delay(300);
                    }
                }              
 }
         SDL_RenderCopy(renderer,titleText,NULL,&titleRec);
+
   if (mouseX >= playRec.x && mouseX <= playRec.x + playRec.w && mouseY >= playRec.y && mouseY <= playRec.y + playRec.h){
                     SDL_RenderCopy(renderer,playTextg,NULL,&playRec);
           
-                }else {
-                       SDL_RenderCopy(renderer,playTextb,NULL,&playRec);
-
-                      }
+   }else {
+        SDL_RenderCopy(renderer,playTextb,NULL,&playRec);
+    }
         
-                        if (mouseX >= exitRec.x && mouseX <= exitRec.x + exitRec.w && mouseY >= exitRec.y && mouseY <= exitRec.y + exitRec.h){
-                                    SDL_RenderCopy(renderer,exitTextr,NULL,&exitRec);
-                                    
-                    }
-                        else{
-                    SDL_RenderCopy(renderer,exitText,NULL,&exitRec);
-                         }                    
-        SDL_RenderCopy(renderer, aboutText, NULL, &aboutRec);
+    // highlight about button when mouse hover on top of it 
+     if (mouseX >= aboutRec.x && mouseX <= aboutRec.x + aboutRec.w && mouseY >= aboutRec.y && mouseY <= aboutRec.y + aboutRec.h){
+                    SDL_RenderCopy(renderer,aboutTextp,NULL,&aboutRec);
+     }else {
+        SDL_RenderCopy(renderer,aboutText,NULL,&aboutRec);
+    }
+
+    // highlight exit button when mouse hover on top of it
+    if (mouseX >= exitRec.x && mouseX <= exitRec.x + exitRec.w && mouseY >= exitRec.y && mouseY <= exitRec.y + exitRec.h){
+            SDL_RenderCopy(renderer,exitTextr,NULL,&exitRec);                     
+        }else{
+            SDL_RenderCopy(renderer,exitText,NULL,&exitRec);
+     }
         SDL_RenderPresent(renderer);
 }
     SDL_DestroyTexture(mymenu);
@@ -201,11 +224,12 @@ while (inMenu) {
     SDL_DestroyTexture(playTextb);
     SDL_DestroyTexture(exitText);
     SDL_DestroyTexture(aboutText);
+    
 if(inPlay){
+
     int blocSize;
     int memorySize;
-
- SDL_Surface* image;
+    SDL_Surface* image;
  
     image = SDL_LoadBMP("./assets/interyourblocsize.bmp");
     SDL_BlitSurface(image,NULL,screen,NULL);
@@ -383,8 +407,36 @@ SDL_RenderPresent(renderer);
 }
 SDL_DestroyTexture(mainText);
 SDL_DestroyTexture(memoryTexture);
-}
 
+} else if(inAbout){
+     // creating texture from surface
+
+     image = SDL_LoadBMP("./assets/AboutDisplay.bmp");
+    SDL_BlitSurface(image,NULL,screen,NULL);
+    SDL_FreeSurface(image);
+    SDL_UpdateWindowSurface(window);
+    SDL_Delay(300);
+    while(inAbout){
+    SDL_Event event;
+     while (SDL_PollEvent(&event)){          
+                switch (event.type) {
+                    case  SDL_QUIT :
+                        inAbout = false;             
+                        break;
+                    case SDL_KEYDOWN:
+				        switch (event.key.keysym.sym)
+				        {
+				        case SDLK_ESCAPE:
+                            inAbout = false;
+                            break;
+				        default:
+					        continue;
+				        }
+            }       
+        }
+    }
+    goto MainMenu;
+}
 
 SDL_DestroyWindow(window);
     TTF_CloseFont(smallFont);
