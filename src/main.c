@@ -3,10 +3,10 @@
 #include<stdbool.h>
 #include<string.h>
 // #include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/includes.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.c"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.c"
+#include "lib/TnOVC.h"
+#include "lib/TnOVC.c"
+#include "lib/functions.h"
+#include "lib/functions.c"
 int main()
 {
     // TnOVC* f = malloc(sizeof(TnOVC));

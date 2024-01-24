@@ -4,7 +4,7 @@
 #include<string.h>
 
 
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/functions.h"
+#include "functions.h"
 /**
  * @brief rechercher un enregistrement a base d'une cle dans un fichier TnOVC
  * 

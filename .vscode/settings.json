@@ -5,6 +5,7 @@
         "utils.h": "c",
         "utils.c": "cpp",
         "string.h": "c",
-        "gui.h": "c"
+        "gui.h": "c",
+        "stdlib.h": "c"
     }
 }

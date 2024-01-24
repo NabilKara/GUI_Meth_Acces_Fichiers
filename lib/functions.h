@@ -1,11 +1,11 @@
 #ifndef FUNCTIONS_H_INCLUDED
 #define FUNCTIONS_H_INCLUDED
 #include<stdbool.h>
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/TnOVC.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/utils.h"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/utils.c"
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/index.c"
+#include "index.h"
+#include "TnOVC.h"
+#include "utils.h"
+#include "utils.c"
+#include "index.c"
 
 /*---Operations fondamentales sur les fichiers---*/
 

@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <string.h>
 
-#include "/home/nabilkara/Desktop/S3/SFSD/GUI_meth_acees_fichiers/lib/utils.h"
+#include "utils.h"
 
 /**
  * @brief Convertir une chaine de caractere a un entier
