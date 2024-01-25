@@ -52,38 +52,33 @@ char fichier_index[] = "index.bin";
 #define ENTETE_NUMERO_DERNIER_BLOC_TOF 1
 #define ENTETE_NOMBRE_ENREGISTREMENTS_TOF 2
 
-typedef struct
-{
-    char cle[TAILLE_CLE];
-    int numBloc;
-    int posBloc;
-}DataIndex;
 
-typedef struct
-{
-    char index[MAX_CHARS_TOF + 1] ;
-}Bloc_TOF,Buffer_TOF;
 
-typedef struct
-{
-    DataIndex tab[MAX_INDEX];
-    int taille;
-}TablIndex;
+// typedef struct
+// {
+//     DataIndex tab[MAX_INDEX_TOF];
+//     int nbIndex;  // nombre d'index inseres
+// }Bloc_TOF,Buffer_TOF;
 
-typedef struct
-{
-    int numDernierBloc;
-    int nbEnreg; // nombre d'enregistrements inseres
-}Entete_TOF;
 
-typedef struct
-{
-    Entete_TOF entete;
-    FILE* fichier;
-}TOF;
-// variables globales
-TablIndex *tabIndex;  // table d'index generale
-bool tabIndexExis; // verifier si la table d'index existe
+
+// typedef struct
+// {
+//     int numDernierBloc;
+//     int nbEnreg; // nombre d'enregistrements inseres
+// }Entete_TOF;
+
+// typedef struct
+// {
+//     Entete_TOF entete;
+//     FILE* fichier;
+// }TOF;
+
+typedef struct {
+    int i;
+    int j;
+    bool b;
+}DataInfo;
 
 
 typedef struct IndexEntete
@@ -91,13 +86,11 @@ typedef struct IndexEntete
     int nbElement ;
 }IndexEntete;
 
-//=============var globales
-IndexEntete index_Entete ;
-
 typedef struct
 {
     int i , j , cle ;
-}Dataindex;
+}DataIndex;
+
 // IndexEntete lire_index_Entete()
 // {
 //     FILE *E = fopen(nom_fichier_index,"rb");
@@ -108,22 +101,25 @@ typedef struct
 //     }
     
 // }
-void setIndexEntete(int i)
-{
-    index_Entete.nbElement = i ; 
-}
 
-int getIndexEntete()
-{
-    return index_Entete.nbElement ;
-}
+//======================================
 
-Dataindex TableIndex[100] ;
+// void setIndexEntete(int i)
+// {
+//     index_Entete.nbElement = i ; 
+// }
 
-void trierTableIndex()
+// int getIndexEntete()
+// {
+//     return index_Entete.nbElement ;
+// }
+
+// Dataindex TableIndex[100];
+
+void trierTableIndex(DataIndex TableIndex[],int n)
 {
-    int n = getIndexEntete() ;
-    Dataindex d ;
+    
+    DataIndex d ;
     for(int i=0;i<n-1;i++)
     {
         for(int j=i+1;j<n;j++)
@@ -152,9 +148,112 @@ Entete readHeader();
 void setHeader(int INDEX, int val);
 int getHeader(int INDEX);
 
-Entete_TOF readHeaderTOF();
-void setHeader_TOF(int INDEX, int val);
-int getHeader_TOF(int INDEX);
+void createIndex(int nb);
+
+IndexEntete readHeaderIndex();
+void setHeaderIndex(int nombre);
+int getHeaderIndex();
+
+void createIndex(int nb){
+    FILE * read = fopen("index.bin","rb");
+    if(read!=NULL){
+        printf("INDEX EXISTE!\n");
+        return;
+    }
+    FILE * create = fopen("index.bin","wb");
+    if(create==NULL){
+        printf("ERROR CREATIN INDEX FILE\n");
+        return;
+    }
+    
+    IndexEntete IE;
+    IE.nbElement=nb;
+    fwrite(&IE,sizeof(IndexEntete),1,create);
+    fclose(create);
+}
+IndexEntete  readHeaderIndex(){
+    FILE * read = fopen("index.bin","rb");
+    if(read==NULL){
+        printf("Reading Faild!\n");
+        IndexEntete IE = {-1};
+        return IE;
+    }
+    
+    
+    
+    IndexEntete IE;
+    fread(&IE,sizeof(IndexEntete),1,read);
+    fclose(read);
+    
+    return IE;
+    
+}
+void setHeaderIndex(int nombre){
+    
+    FILE * setter = fopen("index.bin","rb+");
+    if(setter==NULL){
+        printf("ERROR OF SETTING INDEX HEADER\n");
+        return;
+    }
+    
+    IndexEntete IE;
+    IE.nbElement=nombre;
+    fwrite(&IE,sizeof(IndexEntete),1,setter);
+    fclose(setter);
+}
+int getHeaderIndex(){
+    FILE * read = fopen("index.bin","rb");
+    if(read==NULL){
+        printf("ERROR OF GETTING INDEX!\n");
+        return -1;
+    }
+    
+    
+    IndexEntete IE;
+    fread(&IE,sizeof(IndexEntete),1,read);
+    fclose(read);
+    
+    return IE.nbElement;
+}
+DataIndex * recupereTableIndex(){
+    FILE * read = fopen("index.bin","rb");
+    if(read==NULL){
+        printf("INDEX DOES NOT EXISTE!\n");
+        return NULL;
+    }
+    
+    DataIndex * INDEX_TAB = calloc(getHeaderIndex(),sizeof(DataIndex));
+    fseek(read,sizeof(IndexEntete),SEEK_SET);
+    fread(INDEX_TAB,sizeof(DataIndex),getHeaderIndex(),read);
+    fclose(read);
+    
+    return INDEX_TAB;
+}
+void addDataToIndex(int cle ,int i,int j){
+    FILE * read = fopen("index.bin","rb");
+    if(read==NULL){
+        printf("INDEX DOES NOT EXISTE!\n");
+        return;
+    }
+    FILE * write = fopen("index.bin","ab");
+    DataIndex DI;
+    DI.i=i;
+    DI.j=j;
+    DI.cle=cle;
+    
+    fwrite(&DI,sizeof(DataIndex),1,write);
+    fclose(write);
+    
+    //incrementing.
+    setHeaderIndex(getHeaderIndex()+1);
+    
+    //sorting.
+    DataIndex * tableIndex = recupereTableIndex();
+    trierTableIndex(tableIndex,getHeaderIndex());
+    
+}
+
+
 //============================
 
 bool affecterEntete(TOVC* f,int i,int val){
@@ -356,24 +455,15 @@ bool inserer(char e[],int taille,char nom_fichier[],int cle){
     char id[TAILLE_CLE];
     intToStr(cle,id,TAILLE_CLE);
     
-    TableIndex[getIndexEntete()].cle = cle ;
-    
     
     ecrire_chaine(nom_fichier,buf,&i,&j,TAILLE_CLE,id);
     ecrire_chaine(nom_fichier,buf,&i,&j,TAILLE_CHAR_EFFACEMENT_LOGIQUE,"N");
     ecrire_chaine(nom_fichier,buf,&i,&j,TAILLE_EFFECTIVE_ENREG,c);
-    
-    TableIndex[getIndexEntete()].i = i ;
-    TableIndex[getIndexEntete()].j = j ;
-    
     ecrire_chaine(nom_fichier,buf,&i,&j,taille,e);
     
-    
-    
-    setIndexEntete(getIndexEntete() + 1);
-    trierTableIndex() ;
-    
+
     ecrireBloc(nom_fichier,i,buf);
+    addDataToIndex(cle,i,j);    
     if(i != entete(fichier,ENTETE_NUMERO_DERNIER_BLOC)){
         setHeader(1,i);
         // mettre a jour le numero du dernier bloc
@@ -434,7 +524,38 @@ bool rechercher(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     free(buf);
     return false;
 }
+int binarySearch(DataIndex arr[], int low, int high, int target) {
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
 
+        if (arr[mid].cle == target)
+            return mid;
+
+        if (arr[mid].cle < target)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+
+    return -1; // Not found
+}
+DataInfo SearchIndex(int cle){
+    DataIndex * Table = recupereTableIndex();
+    int indice = binarySearch(Table,0,getHeaderIndex()-1,cle);
+    if(indice!=-1){
+        printf("Cle Trouve");
+        DataIndex DI = Table[indice];
+        
+        printf("\n=>(%d,%d)\n",DI.i,DI.j);
+        
+        DataInfo data= {DI.i,DI.j,true};
+        return data;
+    }
+    printf("NotFound!");
+    DataInfo data= {-1,-1,false};
+    return data;
+    
+}
 bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
     TOVC* fichier = malloc(sizeof(TOVC));
     Buffer* buf = malloc(sizeof(Buffer));
@@ -506,131 +627,30 @@ bool suppression_logique(char cle[TAILLE_CLE], char nom_fichier[]){
     free(buf);
     return false;
 }
-
-
-
-
-bool ouvrir_TOF(TOF* f,char nom_f[],char mode){
-    if(mode == 'N' || mode == 'n'){
-        f->fichier = fopen(nom_f,"wb");
-        if(f->fichier == NULL) {
-        printf("Impossible d'ouvrir le fichier");
+bool removing(int cle){
+    DataInfo sresult =  SearchIndex(cle);
+    if(!sresult.b){
         return false;
-        }
-        setHeader_TOF(1,1) ;
-        setHeader_TOF(2,0) ;
-        FILE *writer = fopen(nom_f,"wb");
-        fwrite(&(f->entete),sizeof(Entete_TOF),1,writer);
-        fclose(writer);
-        return true;
     }
-    if(mode == 'A' || mode == 'a'){
-        f->fichier = fopen(nom_f,"rb+");
-        if(f->fichier == NULL) {
-            // printf("Impossible d'ouvrir le fichier");
-            return false;
-        }
-        FILE *reader = fopen(nom_f,"rb");
-        fread(&(f->entete),sizeof(Entete_TOF),1,reader);
-
-        fclose(reader);
-
-        return true;
-    }
-    return false;
-}
-
-bool lireBloc_TOF(char nom_fichier[],int i,Buffer_TOF *buf){
-    FILE * READER = fopen(nom_fichier,"rb");
-    fseek(READER,sizeof(Bloc_TOF)*(i-1) + sizeof(Entete_TOF),SEEK_SET);
-    if(!fread(buf,sizeof(Buffer_TOF),1,READER)) return false;
-     
-     fclose(READER);
-     return true;
-
+    Buffer * BUF = malloc(sizeof(Buffer));
+    lireBloc(nom_fichier_originale,sresult.i,BUF);
+    
+    char str[3] = {BUF->tab[21],BUF->tab[22],BUF->tab[23]};
+    
    
-}
-
-bool ecrireBloc_TOF(char nom_f[],int i, Buffer_TOF* buf) {
-    FILE * writer=fopen(nom_f,"rb+");
-    fseek(writer,sizeof(Entete_TOF)+(i-1)*sizeof(Buffer_TOF),SEEK_SET);
-    if (!fwrite(buf, sizeof(Buffer_TOF), 1, writer)){
-        fclose(writer);
-        return false;
+    if(sresult.j - (3+strToInt(str)) >= 0 ){
+        lireBloc(nom_fichier_originale,sresult.i,BUF);
+        BUF->tab[sresult.j -(3+strToInt(str))-1] = 'E';
+        ecrireBloc(nom_fichier_originale,sresult.i,BUF);
     }
-    fclose(writer);
+    else{
+        lireBloc(nom_fichier_originale,sresult.i -1 ,BUF);
+        BUF->tab[MAX_NO_CHARS + sresult.j - 3] = 'E';
+        ecrireBloc(nom_fichier_originale,sresult.i -1,BUF);
+    }
+    
     return true;
 }
-
-bool lire_chaine_TOF(char nom_fichier[],Buffer_TOF* buf,int* i,int* j,int taille,char ch[]){
-    ch[taille] = '\0' ;
-    for (int k = 0; k < taille; k++)
-    {
-        if(*j <= MAX_CHARS_TOF){
-            ch[k] = buf->index[*j];
-            (*j)++;
-        }else
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool ecrire_chaine_TOF(char nom_fichier[],Buffer_TOF* buf,int* i,int *j,int taille,char *ch){
-    for (int k = 0; k < taille; k++)
-    {
-        if(*j <= MAX_CHARS_TOF){
-
-            buf->index[*j] = ch[k];
-            (*j)++;
-        }else{
-            return false;
-        }
-    }
-    return true;
-}
-
-bool Charger_TOF()
-{
-    TOF *f = malloc(sizeof(TOF)) ;
-    Buffer_TOF *buf = malloc(sizeof(Buffer_TOF)) ;
-    
-    lireBloc_TOF(fichier_index,getHeader_TOF(1),buf);
-    
-    if(!ouvrir_TOF(f,fichier_index,'N'))
-    {
-        printf("impossible d'ouvrir le fichier");
-        return false;
-    }
-    
-    char cle[TAILLE_CLE] ;
-    char I[TAILLE_EFFECTIVE_ENREG] ;
-    char J[TAILLE_EFFECTIVE_ENREG] ;
-    
-    int i = 0,j;
-    for(int k = 0;k < getIndexEntete();k++)
-    {
-        j = 0 ;
-        i = i + 1 ;
-        intToStr(TableIndex[k].cle,cle,TAILLE_CLE) ;
-        intToStr(TableIndex[k].i,I,TAILLE_EFFECTIVE_ENREG);
-        intToStr(TableIndex[k].j,J,TAILLE_EFFECTIVE_ENREG);
-        
-        ecrire_chaine_TOF(fichier_index,buf,&i,&j,TAILLE_CLE,cle) ;
-        ecrire_chaine_TOF(fichier_index,buf,&i,&j,TAILLE_CLE,I) ;
-        ecrire_chaine_TOF(fichier_index,buf,&i,&j,TAILLE_CLE,J) ;
-        
-        ecrireBloc_TOF(fichier_index,i,buf) ;
-    }
-    
-    setHeader_TOF(1,i) ;
-    setHeader_TOF(2,i*4) ;
-    
-    return true;
-    
-}
-
 
 
 void about(){
@@ -657,10 +677,10 @@ void recupererChaine(char ch[])
 }
 
 void affichage(){
-    printf("\t\t\t1 - inserer un etudient\n");
-    printf("\t\t\t2 - afficher un etudiant\n");
-    printf("\t\t\t3 - afficher tout les etudiants\n");
-    printf("\t\t\t4 - supprimer un etudiant\n");
+    printf("\t\t\t1 - inserer une chaine\n");
+    printf("\t\t\t2 - afficher une chaine\n");
+    printf("\t\t\t3 - supprimer une chaine\n");
+    printf("\t\t\t4 - afficher tous les chaine\n");
     printf("\t\t\t5 - exit\n");
 }
 
@@ -674,6 +694,134 @@ int choix(){
     }while(i<=0 || i>5);
     return i ;
 }
+
+
+
+
+
+
+
+// bool ouvrir_TOF(TOF* f,char nom_f[],char mode){
+//     if(mode == 'N' || mode == 'n'){
+//         f->fichier = fopen(nom_f,"wb");
+//         if(f->fichier == NULL) {
+//         printf("Impossible d'ouvrir le fichier");
+//         return false;
+//         }
+//         setHeader_TOF(1,1);
+//         setHeader_TOF(2,0);
+//         // FILE *writer = fopen(nom_f,"wb");
+//         // fwrite(&(f->entete),sizeof(Entete_TOF),1,writer);
+//         // fclose(writer);
+//         return true;
+//     }
+//     if(mode == 'A' || mode == 'a'){
+//         f->fichier = fopen(nom_f,"rb+");
+//         if(f->fichier == NULL) {
+//             // printf("Impossible d'ouvrir le fichier");
+//             return false;
+//         }
+//         FILE *reader = fopen(nom_f,"rb");
+//         fread(&(f->entete),sizeof(Entete_TOF),1,reader);
+
+//         fclose(reader);
+
+//         return true;
+//     }
+//     return false;
+// }
+
+// bool lireBloc_TOF(char nom_fichier[],int i,Buffer_TOF *buf){
+//     FILE * READER = fopen(nom_fichier,"rb");
+//     fseek(READER,sizeof(Bloc_TOF)*(i-1) + sizeof(Entete_TOF),SEEK_SET);
+//     if(!fread(buf,sizeof(Buffer_TOF),1,READER)) return false;
+     
+//      fclose(READER);
+//      return true;
+
+   
+// }
+
+// bool ecrireBloc_TOF(char nom_f[],int i, Buffer_TOF* buf) {
+//     FILE * writer=fopen(nom_f,"rb+");
+//     fseek(writer,sizeof(Entete_TOF)+(i-1)*sizeof(Buffer_TOF),SEEK_SET);
+//     if (!fwrite(buf, sizeof(Buffer_TOF), 1, writer)){
+//         fclose(writer);
+//         return false;
+//     }
+//     fclose(writer);
+//     return true;
+// }
+
+// bool lire_chaine_TOF(char nom_fichier[],Buffer_TOF* buf,int* i,int* j,int taille,char ch[]){
+//     ch[taille] = '\0' ;
+//     for (int k = 0; k < taille; k++)
+//     {
+//         if(*j <= MAX_CHARS_TOF){
+//             ch[k] = buf->index[*j];
+//             (*j)++;
+//         }else
+//         {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
+// bool ecrire_chaine_TOF(char nom_fichier[],Buffer_TOF* buf,int* i,int *j,int taille,char *ch){
+//     for (int k = 0; k < taille; k++)
+//     {
+//         if(*j <= MAX_CHARS_TOF){
+
+//             buf->index[*j] = ch[k];
+//             (*j)++;
+//         }else{
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
+// bool Charger_TOF()
+// {
+//     TOF *f = malloc(sizeof(TOF)) ;
+//     Buffer_TOF *buf = malloc(sizeof(Buffer_TOF)) ;
+    
+//     lireBloc_TOF(fichier_index,getHeader_TOF(1),buf);
+    
+//     if(!ouvrir_TOF(f,fichier_index,'N'))
+//     {
+//         printf("impossible d'ouvrir le fichier");
+//         return false;
+//     }
+    
+//     char cle[TAILLE_CLE] ;
+//     char I[TAILLE_EFFECTIVE_ENREG] ;
+//     char J[TAILLE_EFFECTIVE_ENREG] ;
+    
+//     int i = 0,j;
+//     for(int k = 0;k < getIndexEntete();k++)
+//     {
+//         j = 0 ;
+//         i = i + 1 ;
+//         // intToStr(TableIndex[k].cle,cle,TAILLE_CLE) ;
+//         // intToStr(TableIndex[k].i,I,TAILLE_EFFECTIVE_ENREG);
+//         // intToStr(TableIndex[k].j,J,TAILLE_EFFECTIVE_ENREG);
+        
+//         // ecrire_chaine_TOF(fichier_index,buf,&i,&j,TAILLE_CLE,cle) ;
+//         // ecrire_chaine_TOF(fichier_index,buf,&i,&j,TAILLE_CLE,I) ;
+//         // ecrire_chaine_TOF(fichier_index,buf,&i,&j,TAILLE_CLE,J) ;
+        
+//         ecrireBloc_TOF(fichier_index,i,buf);
+//     }
+    
+//     setHeader_TOF(1,i) ;
+//     setHeader_TOF(2,i*4) ;
+    
+//     return true;
+    
+// }
+
 
 void afficherDonner(char nom_fichier[],char cle[TAILLE_CLE],int *i,int *j){
     TOVC* fichier = malloc(sizeof(TOVC));
@@ -774,7 +922,7 @@ void afficherToutDonner(char nom_fichier[],int *i,int *j){
 }
 
 
-
+void displayIndex();
 void fonctions(char nom_fichier_originale[])
 {
     int id ;
@@ -787,49 +935,61 @@ void fonctions(char nom_fichier_originale[])
                  id = recupererId() ;
                  recupererChaine(ch) ;
                  inserer(ch,strlen(ch),nom_fichier_originale,id);
-                 Charger_TOF() ;
+                 displayIndex();
                  goto debut ;
                  break;
         case 2 :
                  id = recupererId() ;
                  intToStr(id,cle,TAILLE_CLE);
                  int i , j ;
-                 if(rechercher(nom_fichier_originale,cle,&i,&j))
-                 {
+                //  if(rechercher(nom_fichier_originale,cle,&i,&j))
+                //  {
+                //      printf("existe\n");
+                //  }
+                if(SearchIndex(id).b){
                     afficherDonner(nom_fichier_originale,cle,&i,&j) ;
-                 }
+                }
                  else
                  {
                      printf("n'existe pas\n");
                  }
+                 displayIndex();
                  goto debut;
                  break ;
-        case 4 : id = recupererId() ;
+        case 3 : id = recupererId() ;
                  intToStr(id,cle,TAILLE_CLE);
                  if(suppression_logique(cle,nom_fichier_originale))
                  {
                     printf("la cle %s a ete bien supprimer\n\n",cle);
                  }
+                // if(removing(id)){
+                //     printf("la cle %d a ete bien supprimer\n\n",id);
+                // }
                  else
                  {
                     printf("false id ou deja supprimer\n") ;
                  }
-                 Charger_TOF() ;
+                //  Charger_TOF() ;
                  goto debut ;
-                 break ;
-                 
-        case 3 : afficherToutDonner(nom_fichier_originale,&i,&j) ;
+        case 4 : afficherToutDonner(nom_fichier_originale,&i,&j) ;
                  goto debut ;
-                 break ;
         default : return ;
     }
+}
+void displayIndex(){
+    DataIndex *DI = recupereTableIndex();
+    for(int i;i<getHeaderIndex();i++){
+        printf("____\n");
+        printf("%d %d %d \n",DI[i].i,DI[i].j,DI[i].cle);
+    }
+    free(DI);
 }
 
 
 int main()
 {
     TOVC *fichier_originale = malloc(sizeof(TOVC)) ;
-    TOF *f = malloc(sizeof(TOF)) ;
+    // TOF *f = malloc(sizeof(TOF)) ;
     int existe ;
     about();
     printf("\nest ce que le fichier existe deja ?? : ");
@@ -841,14 +1001,10 @@ int main()
         {
             printf("mahabch yeteftah");
         }
-        if(!ouvrir_TOF(f,fichier_index,'N'))
-        {
-            printf("impossible d'ouvrir le fichier index");
-            return false;
-        }
+        createIndex(0);
     }
     
-    fonctions(nom_fichier_originale) ;
+    fonctions(nom_fichier_originale);
     free(fichier_originale) ;
     
     //afficherTable();
@@ -950,72 +1106,70 @@ int getHeader(int INDEX){
 }
 
 
-Entete_TOF readHeaderTOF(){
-    FILE * RH = fopen(fichier_index,"rb");
-    Entete_TOF H;
-    if (RH== NULL) {
-        printf("Unable to open the file.\n");
-        return H;
-    }
+// Entete_TOF readHeaderTOF(){
+//     FILE * RH = fopen(fichier_index,"rb");
+//     Entete_TOF H;
+//     if (RH== NULL) {
+//         printf("Unable to open the file.\n");
+//         return H;
+//     }
    
-    fread(&H,sizeof(Entete_TOF),1,RH);
-    fclose(RH);
+//     fread(&H,sizeof(Entete_TOF),1,RH);
+//     fclose(RH);
 
-    return H;
-}
-void setHeader_TOF(int INDEX,int val){
+//     return H;
+// }
+// void setHeader_TOF(int INDEX,int val){
     
-    Entete_TOF H = readHeaderTOF();
+//     Entete_TOF H = readHeaderTOF();
     
-    FILE * writer = fopen(fichier_index,"rb+");
+//     FILE * writer = fopen(fichier_index,"rb+");
     
-    switch(INDEX){
-        case 1: 
-                H.numDernierBloc=val;
-                fwrite(&H,sizeof(Entete_TOF),1,writer);
-                fclose(writer);
-                return;
+//     switch(INDEX){
+//         case 1: 
+//                 H.numDernierBloc=val;
+//                 fwrite(&H,sizeof(Entete_TOF),1,writer);
+//                 fclose(writer);
+//                 return;
                 
-        case 2: 
+//         case 2: 
         
-                H.nbEnreg=val;
-                
-                fwrite(&H,sizeof(Entete_TOF),1,writer);
-                fclose(writer);
-                
-                return;
-        default:
-            printf("INDEX NOT VALID [FROM SET_HEADER]");
-            return;
-    }
-    fclose(writer);
-}
-int getHeader_TOF(int INDEX){
+//                 H.nbEnreg=val;
+//                 fwrite(&H,sizeof(Entete_TOF),1,writer);
+//                 fclose(writer);
+//                 return;
+//         default:
+//             printf("INDEX NOT VALID [FROM SET_HEADER]");
+//             return;
+//     }
+//     fclose(writer);
+// }
+// int getHeader_TOF(int INDEX){
     
-    FILE * f =fopen(fichier_index,"rb");
-    Entete_TOF H;
+//     FILE * f =fopen(fichier_index,"rb");
+//     Entete_TOF H;
     
-    if (f== NULL) {
-        printf("Unable to open the file.\n");
-        fclose(f);
-        return -111;        //value of null
-    }
-    fread(&H, sizeof(H), 1, f);
-    switch(INDEX){
-        case 1: 
-                fclose(f);
-                return H.numDernierBloc;
-                break;
-        case 2: 
-                fclose(f);
-                return H.nbEnreg;
-                break;
-        default:
-            fclose(f);
-            return -222;    //INDEX OverFlow Value
-    }
-    fclose(f);
+//     if (f== NULL) {
+//         printf("Unable to open the file.\n");
+//         fclose(f);
+//         return -111;        //value of null
+//     }
+//     fread(&H, sizeof(H), 1, f);
+//     switch(INDEX){
+//         case 1: 
+//                 fclose(f);
+//                 return H.numDernierBloc;
+//                 break;
+//         case 2: 
+//                 fclose(f);
+//                 return H.nbEnreg;
+//                 break;
+//         default:
+//             fclose(f);
+//             return -222;    //INDEX OverFlow Value
+//     }
+//     fclose(f);
 
-}
+// }
 
 
